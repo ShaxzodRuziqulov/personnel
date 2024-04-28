@@ -132,6 +132,7 @@ public class StructureServiceImpl implements StructureService {
             structureDTO.setSortOrder(structure.getSortOrder());
             structureDTO.setParentId(structure.getParent() != null ? structure.getParent().getId() : null);
             structureDTO.setParentName(structure.getParent() != null ? structure.getParent().getName() : null);
+            structureDTO.setStatus(String.valueOf(structure.getStatus()));
             resStructureDTOS.add(structureDTO);
         }
 

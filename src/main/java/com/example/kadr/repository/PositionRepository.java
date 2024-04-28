@@ -19,6 +19,6 @@ import org.springframework.stereotype.Repository;
 public interface PositionRepository extends JpaRepository<Position,Long> {
     @Transactional
     @Modifying
-    @Query("update Branch a set a.status = :commonStatus where a.id = :id")
+    @Query("update Position a set a.status = :commonStatus where a.id = :id")
     void updateStatus(@Param("id") Long id, @Param("commonStatus") CommonStatus commonStatus);
 }

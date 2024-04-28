@@ -53,7 +53,7 @@ public class StructureResource {
         return ResponseEntity.ok(structureDTOS);
     }
 
-    @GetMapping("/allByOrder")
+    @GetMapping("/allBySortOrderAsc")
     public ResponseEntity<?> findAllByOrderBySortOrderAsc() {
         List<StructureDTO> structureDTOS = structureService.findAllByOrderBySortOrderAsc();
         return ResponseEntity.ok(structureDTOS);

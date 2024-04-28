@@ -15,10 +15,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department,Long> {
+    List<Department> findByBranchId(Long id);
     @Transactional
     @Modifying
-    @Query("update Branch a set a.status = :commonStatus where a.id = :id")
+    @Query("update Department a set a.status = :commonStatus where a.id = :id")
     void updateStatus(@Param("id") Long id, @Param("commonStatus") CommonStatus commonStatus);
 }

@@ -48,6 +48,12 @@ public class DepartmentResource {
         return ResponseEntity.ok(department);
     }
 
+    @GetMapping("/by-branch/{id}")
+    public ResponseEntity<?> findByBranchId(@PathVariable Long id) {
+        List<Department> department = departmentService.findByBranchId(id);
+        return ResponseEntity.ok(department);
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         departmentService.delete(id);

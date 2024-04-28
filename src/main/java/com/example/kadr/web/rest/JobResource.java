@@ -49,6 +49,11 @@ public class JobResource {
         Job job = jobService.findById(id);
         return ResponseEntity.ok(job);
     }
+    @GetMapping("/by-departmentId/{id}")
+    public ResponseEntity<?> findByDepartmentId(@PathVariable Long id) {
+        List<Job> job = jobService.findByDepartmentId(id);
+        return ResponseEntity.ok(job);
+    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {

@@ -62,7 +62,7 @@ public class JobServiceImpl implements JobService {
             jobDTO.setName(job.getName());
             jobDTO.setDepartmentId(job.getDepartment() != null ? job.getDepartment().getId() : null);
             jobDTO.setPositionId(job.getPosition() != null ? job.getPosition().getId() : null);
-            jobDTO.setStatus(jobDTO.getStatus());
+            jobDTO.setStatus(String.valueOf(job.getStatus()));
             jobDTOList.add(jobDTO);
         }
         return jobDTOList;
@@ -80,6 +80,9 @@ public class JobServiceImpl implements JobService {
 
     public Job findById(Long id) {
         return jobRepository.findById(id).orElseGet(Job::new);
+    }
+    public List<Job> findByDepartmentId(Long id) {
+        return jobRepository.findByDepartmentId(id);
     }
 
     public Job toEntity(JobDTO jobDTO) {

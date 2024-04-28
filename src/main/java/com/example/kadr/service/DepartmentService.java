@@ -21,4 +21,5 @@ public interface DepartmentService {
     void delete(Long id);
 
     Department findById(Long id);
+    List<Department> findByBranchId(Long id);
 }

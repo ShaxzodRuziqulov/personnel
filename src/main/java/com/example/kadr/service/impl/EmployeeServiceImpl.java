@@ -68,6 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<EmployeeDTO> employeeDTOS = new ArrayList<>();
         for (Employee employee : employees) {
             EmployeeDTO employeeDTO = new EmployeeDTO();
+            employeeDTO.setId(employee.getId());
             employeeDTO.setFirstName(employee.getFirstName());
             employeeDTO.setLastName(employee.getLastName());
             employeeDTO.setDateBirth(employee.getDateBirth());
@@ -75,6 +76,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             employeeDTO.setJobId(employee.getJob().getId());
             employeeDTO.setUsername(employee.getUserName());
             employeeDTO.setGender(employee.getGender());
+            employeeDTO.setHashId(employee.getHashId());
             employeeDTOS.add(employeeDTO);
         }
         return employeeDTOS;

@@ -19,13 +19,11 @@ import java.util.List;
 
 @Repository
 public interface StructureRepository extends JpaRepository<Structure,Long> {
-
-
     List<Structure> findAllByOrderBySortOrderAsc();
 
     List<Structure> findAllByParentId(Long parentId);
     @Transactional
     @Modifying
-    @Query("update Branch a set a.status = :commonStatus where a.id = :id")
+    @Query("update Structure a set a.status = :commonStatus where a.id = :id")
     void updateStatus(@Param("id") Long id, @Param("commonStatus") CommonStatus commonStatus);
 }

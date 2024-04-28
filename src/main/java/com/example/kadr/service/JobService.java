@@ -18,4 +18,5 @@ public interface JobService {
     List<JobDTO> all ();
     void delete(Long id);
     Job findById(Long id);
+    List<Job> findByDepartmentId(Long id);
 }

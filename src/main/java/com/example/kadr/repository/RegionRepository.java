@@ -19,6 +19,6 @@ import org.springframework.stereotype.Repository;
 public interface RegionRepository extends JpaRepository<Region,Long> {
     @Transactional
     @Modifying
-    @Query("update Branch a set a.status = :commonStatus where a.id = :id")
+    @Query("update Region a set a.status = :commonStatus where a.id = :id")
     void updateStatus(@Param("id") Long id, @Param("commonStatus") CommonStatus commonStatus);
 }

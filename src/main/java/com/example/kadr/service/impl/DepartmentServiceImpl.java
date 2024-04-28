@@ -67,6 +67,9 @@ public class DepartmentServiceImpl implements DepartmentService {
         log.debug("Request to delete Department : {}", id);
         branchRepository.updateStatus(id, CommonStatus.DELETED);
     }
+    public List<Department> findByBranchId(Long id){
+        return departmentRepository.findByBranchId(id);
+    }
 
     public List<DepartmentDTO> toDTOS(List<Department> departments) {
         List<DepartmentDTO> departmentDTOList = new ArrayList<>();
