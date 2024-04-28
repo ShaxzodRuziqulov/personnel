@@ -6,10 +6,8 @@
  */
 package com.example.kadr.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
+import jakarta.persistence.*;
 
 @Entity
 public class District {
@@ -17,6 +15,8 @@ public class District {
     @GeneratedValue
     private Long id;
     private String name;
+    @Enumerated(EnumType.STRING)
+    private CommonStatus status;
 
     public Long getId() {
         return id;
@@ -34,5 +34,11 @@ public class District {
         this.name = name;
     }
 
+    public CommonStatus getStatus() {
+        return status;
+    }
 
+    public void setStatus(CommonStatus status) {
+        this.status = status;
+    }
 }

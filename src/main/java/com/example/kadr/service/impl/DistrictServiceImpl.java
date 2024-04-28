@@ -7,32 +7,28 @@
 package com.example.kadr.service.impl;
 
 import com.example.kadr.entity.District;
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.example.kadr.repository.DistrictRepository;
-import com.example.kadr.repository.RegionRepository;
 import com.example.kadr.service.DistrictService;
 import com.example.kadr.service.dto.DistrictDTO;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DistrictServiceImpl implements DistrictService {
     private final DistrictRepository districtRepository;
-    private final RegionRepository regionRepository;
 
-    public DistrictServiceImpl(DistrictRepository districtRepository, RegionRepository regionRepository) {
+    public DistrictServiceImpl(DistrictRepository districtRepository) {
         this.districtRepository = districtRepository;
-        this.regionRepository = regionRepository;
     }
+
 
     @Override
     public String create(DistrictDTO districtDTO) {
         try {
-            District district = new District();
-            district.setName(districtDTO.getName());
-            districtRepository.save(district);
+            districtRepository.save(toEntity(districtDTO));
             return "Muvaffaqiyatli saqlandi";
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,18 +39,8 @@ public class DistrictServiceImpl implements DistrictService {
     @Override
     public String update(DistrictDTO districtDTO) {
         try {
-            if (districtDTO.getId() != null) {
-                if (districtRepository.findById(districtDTO.getId()).isPresent()) {
-                    District district = districtRepository.findById(districtDTO.getId()).get();
-                    district.setName(districtDTO.getName());
-                    districtRepository.save(district);
-                    return "Muvaffaqiyatli uzgartirildi";
-                } else {
-                    return "Id topilmadi";
-                }
-            } else {
-                return "Xatolik: id null ga teng";
-            }
+            districtRepository.save(toEntity(districtDTO));
+            return "Muvaffaqiyatli uzgartirildi";
         } catch (Exception e) {
             e.printStackTrace();
             return "Xatolik";
@@ -62,8 +48,8 @@ public class DistrictServiceImpl implements DistrictService {
     }
 
     @Override
-    public List<District> all() {
-        return districtRepository.findAll();
+    public List<DistrictDTO> all() {
+        return toDTOS(districtRepository.findAll());
     }
 
     @Override
@@ -73,8 +59,27 @@ public class DistrictServiceImpl implements DistrictService {
 
     @Override
     public void delete(Long id) {
-        District district = districtRepository.getReferenceById(id);
-        districtRepository.delete(district);
+        districtRepository.updateStatus(id, CommonStatus.DELETED);
+    }
+
+    public List<DistrictDTO> toDTOS(List<District> districts) {
+        List<DistrictDTO> districtList = new ArrayList<>();
+        for (District district : districts) {
+            DistrictDTO districtDTO = new DistrictDTO();
+            districtDTO.setId(district.getId());
+            districtDTO.setName(district.getName());
+            districtDTO.setStatus(String.valueOf(district.getStatus()));
+            districtList.add(districtDTO);
+        }
+        return districtList;
+    }
+
+    public District toEntity(DistrictDTO districtDTO) {
+        District district = new District();
+        district.setId(districtDTO.getId());
+        district.setName(districtDTO.getName());
+        district.setStatus(CommonStatus.valueOf(districtDTO.getStatus()));
+        return district;
     }
 
 }

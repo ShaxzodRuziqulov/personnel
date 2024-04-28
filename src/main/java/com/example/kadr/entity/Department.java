@@ -6,6 +6,7 @@
  */
 package com.example.kadr.entity;
 
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,4 +19,6 @@ public class Department {
     private String name;
     @ManyToOne
     private Branch branch;
+    @Enumerated(EnumType.STRING)
+    private CommonStatus status;
 }

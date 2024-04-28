@@ -14,7 +14,7 @@ import java.util.List;
 public interface RegionService {
     String create(RegionDTO regionDTO);
     String update(RegionDTO regionDTO);
-    List<Region> all();
+    List<RegionDTO> all();
     Region findById(Long id);
     void delete(Long id);
 }

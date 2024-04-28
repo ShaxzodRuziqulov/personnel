@@ -6,15 +6,15 @@
  */
 package com.example.kadr.service.dto;
 
-import com.example.kadr.entity.enumitation.EmployeeStatus;
 import com.example.kadr.entity.enumitation.Gender;
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
 
 public class EmployeeDTO {
     private Long id;
     private String firstName;
     private String lastName;
     private String dateBirth;
-    private EmployeeStatus status;
+    private String status;
     private Long jobId;
     private String username;
     private Gender gender;
@@ -52,11 +52,11 @@ public class EmployeeDTO {
         this.dateBirth = dateBirth;
     }
 
-    public EmployeeStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(EmployeeStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

@@ -33,7 +33,7 @@ public class RegionResource {
     }
     @GetMapping("/all")
     public ResponseEntity<?> all(){
-        List<Region> regions = regionService.all();
+        List<RegionDTO> regions = regionService.all();
         return ResponseEntity.ok(regions);
     }
     @GetMapping("/by-id/{id}")

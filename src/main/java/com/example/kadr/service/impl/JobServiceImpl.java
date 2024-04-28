@@ -6,6 +6,7 @@
  */
 package com.example.kadr.service.impl;
 
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.example.kadr.repository.DepartmentRepository;
 import com.example.kadr.repository.JobRepository;
 import com.example.kadr.repository.PositionRepository;
@@ -34,11 +35,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public String create(JobDTO jobDTO) {
         try {
-            Job job = new Job();
-            job.setName(jobDTO.getName());
-            job.setDepartment(departmentRepository.findById(jobDTO.getDepartmentId()).orElseThrow(() -> new EntityNotFoundException("Department topilmadi")));
-            job.setPosition(positionRepository.findById(jobDTO.getPositionId()).orElseThrow(() -> new EntityNotFoundException("Position topilmadi")));
-            jobRepository.save(job);
+            jobRepository.save(toEntity(jobDTO));
             return "Muvaffaqiyatli saqlandi";
         } catch (Exception e) {
             e.printStackTrace();
@@ -49,21 +46,9 @@ public class JobServiceImpl implements JobService {
     @Override
     public String update(JobDTO jobDTO) {
         try {
-            if (jobDTO.getId() != null) {
-                if (jobRepository.findById(jobDTO.getId()).isPresent()) {
-                    Job job = jobRepository.findById(jobDTO.getId()).get();
-                    job.setName(jobDTO.getName());
-                    job.setDepartment(departmentRepository.findById(jobDTO.getDepartmentId()).orElseThrow(() -> new EntityNotFoundException("Department topilmadi")));
-                    job.setPosition(positionRepository.findById(jobDTO.getPositionId()).orElseThrow(() -> new EntityNotFoundException("Position topilmadi")));
-                    jobRepository.save(job);
-                    return "Muvaffaqiyatli uzgartirildi";
-                } else {
-                    return "Id topilmadi";
-                }
-            } else {
-                return "Xatolik: id null ga teng";
-            }
-        } catch (Exception e) {
+            jobRepository.save(toEntity(jobDTO));
+            return "Muvaffaqiyatli uzgartirildi";
+        }catch (Exception e){
             e.printStackTrace();
             return "Xatolik";
         }
@@ -73,9 +58,11 @@ public class JobServiceImpl implements JobService {
         List<JobDTO> jobDTOList = new ArrayList<>();
         for (Job job : jobs) {
             JobDTO jobDTO = new JobDTO();
+            jobDTO.setId(job.getId());
             jobDTO.setName(job.getName());
             jobDTO.setDepartmentId(job.getDepartment() != null ? job.getDepartment().getId() : null);
             jobDTO.setPositionId(job.getPosition() != null ? job.getPosition().getId() : null);
+            jobDTO.setStatus(jobDTO.getStatus());
             jobDTOList.add(jobDTO);
         }
         return jobDTOList;
@@ -88,11 +75,21 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public void delete(Long id) {
-        Job job = jobRepository.getReferenceById(id);
-        jobRepository.delete(job);
+        jobRepository.updateStatus(id, CommonStatus.DELETED);
     }
-    public Job findById(Long id){
+
+    public Job findById(Long id) {
         return jobRepository.findById(id).orElseGet(Job::new);
+    }
+
+    public Job toEntity(JobDTO jobDTO) {
+        Job job = new Job();
+        job.setId(job.getId());
+        job.setName(jobDTO.getName());
+        job.setDepartment(departmentRepository.findById(jobDTO.getDepartmentId()).orElseThrow(() -> new EntityNotFoundException("Department topilmadi")));
+        job.setPosition(positionRepository.findById(jobDTO.getPositionId()).orElseThrow(() -> new EntityNotFoundException("Position topilmadi")));
+        job.setStatus(CommonStatus.valueOf(jobDTO.getStatus()));
+        return job;
     }
 
 }

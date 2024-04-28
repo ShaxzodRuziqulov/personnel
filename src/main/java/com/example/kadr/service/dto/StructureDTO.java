@@ -12,6 +12,7 @@ public class StructureDTO {
     private String name;
     private Long sortOrder;
     private Long parentId;
+    private String status;
     private String parentName;
 
     public Long getId() {
@@ -48,6 +49,14 @@ public class StructureDTO {
 
     public String getParentName() {
         return parentName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void setParentName(String parentName) {

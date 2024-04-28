@@ -6,8 +6,8 @@
  */
 package com.example.kadr.entity;
 
-import com.example.kadr.entity.enumitation.EmployeeStatus;
 import com.example.kadr.entity.enumitation.Gender;
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,7 +20,8 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String dateBirth;
-    private EmployeeStatus status;
+    @Enumerated(EnumType.STRING)
+    private CommonStatus status;
     @ManyToOne
     private Job job;
     private String userName;

@@ -16,7 +16,10 @@ public interface StructureService {
 
     String update(StructureDTO structureDTO);
 
+    String updateNew(StructureDTO structureDTO);
+
     List<StructureDTO> all();
+    List<StructureDTO> findAllByOrderBySortOrderAsc();
 
     List<StructureDTO> findAllByParentId(Long parentId);
     Structure findById (Long id);

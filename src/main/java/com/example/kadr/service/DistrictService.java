@@ -14,7 +14,7 @@ import java.util.List;
 public interface DistrictService {
     String create(DistrictDTO districtDTO);
     String update(DistrictDTO districtDTO);
-    List<District> all();
+    List<DistrictDTO> all();
     District findById(Long id);
     void delete(Long id);
 }

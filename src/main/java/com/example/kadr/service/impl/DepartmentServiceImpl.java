@@ -6,20 +6,23 @@
  */
 package com.example.kadr.service.impl;
 
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.example.kadr.repository.BranchRepository;
 import com.example.kadr.repository.DepartmentRepository;
 import com.example.kadr.entity.Department;
 import com.example.kadr.service.DepartmentService;
 import com.example.kadr.service.dto.DepartmentDTO;
 import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
+    private final Logger log = LoggerFactory.getLogger(DepartmentService.class);
     private final DepartmentRepository departmentRepository;
     private final BranchRepository branchRepository;
 
@@ -31,11 +34,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public String create(DepartmentDTO departmentDTO) {
         try {
-            Department department = new Department();
-            department.setId(departmentDTO.getId());
-            department.setName(departmentDTO.getName());
-            department.setBranch(branchRepository.findById(departmentDTO.getBranchId()).orElseThrow(() -> new EntityNotFoundException("branch topilmadi")));
-            departmentRepository.save(department);
+            departmentRepository.save(toEntity(departmentDTO));
             return "Muvaffaqiyatli saqlandi";
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,19 +45,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public String update(DepartmentDTO departmentDTO) {
         try {
-            if (departmentDTO.getId() != null) {
-                if (departmentRepository.findById(departmentDTO.getId()).isPresent()) {
-                    Department department = departmentRepository.findById(departmentDTO.getId()).get();
-                    department.setName(departmentDTO.getName());
-                    department.setBranch(branchRepository.findById(departmentDTO.getBranchId()).orElseThrow(() -> new EntityNotFoundException("branch topilmadi")));
-                    departmentRepository.save(department);
-                    return "Muvaffaqiyatli uzgartirildi";
-                } else {
-                    return " Id topilmadi";
-                }
-            } else {
-                return "Xatolik: id null ga teng";
-            }
+            departmentRepository.save(toEntity(departmentDTO));
+            return "Muvaffaqiyatli uzgartirildi";
         } catch (Exception e) {
             e.printStackTrace();
             return "Xatolik";
@@ -76,8 +64,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public void delete(Long id) {
-        Department delete = departmentRepository.getReferenceById(id);
-        departmentRepository.delete(delete);
+        log.debug("Request to delete Department : {}", id);
+        branchRepository.updateStatus(id, CommonStatus.DELETED);
     }
 
     public List<DepartmentDTO> toDTOS(List<Department> departments) {
@@ -87,8 +75,18 @@ public class DepartmentServiceImpl implements DepartmentService {
             departmentDto.setId(department.getId());
             departmentDto.setName(department.getName());
             departmentDto.setBranchId(department.getBranch() != null ? department.getBranch().getId() : null);
+            departmentDto.setStatus(String.valueOf(department.getStatus()));
             departmentDTOList.add(departmentDto);
         }
         return departmentDTOList;
+    }
+
+    public Department toEntity(DepartmentDTO departmentDTO) {
+        Department department = new Department();
+        department.setId(department.getId());
+        department.setName(departmentDTO.getName());
+        department.setBranch(branchRepository.findById(departmentDTO.getBranchId()).orElseThrow(() -> new EntityNotFoundException("branch topilmadi")));
+        department.setStatus(CommonStatus.valueOf(departmentDTO.getStatus()));
+        return department;
     }
 }

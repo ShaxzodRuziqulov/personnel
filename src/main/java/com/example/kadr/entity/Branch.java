@@ -6,6 +6,7 @@
  */
 package com.example.kadr.entity;
 
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
@@ -16,6 +17,8 @@ public class Branch {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Enumerated(EnumType.STRING)
+    private CommonStatus status;
     @ManyToOne
     @JsonBackReference
     private Branch parent;
@@ -73,5 +76,13 @@ public class Branch {
 
     public void setDistrict(District district) {
         this.district = district;
+    }
+
+    public CommonStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CommonStatus status) {
+        this.status = status;
     }
 }

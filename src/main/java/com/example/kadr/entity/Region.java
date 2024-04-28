@@ -6,6 +6,7 @@
  */
 package com.example.kadr.entity;
 
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,6 +15,8 @@ public class Region {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Enumerated(EnumType.STRING)
+    private CommonStatus status;
 
     public void setId(Long id) {
         this.id = id;
@@ -30,5 +33,13 @@ public class Region {
     public void setName(String name) {
 
         this.name = name;
+    }
+
+    public CommonStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CommonStatus status) {
+        this.status = status;
     }
 }

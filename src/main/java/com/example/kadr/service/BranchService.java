@@ -22,5 +22,5 @@ public interface BranchService {
 
     Branch findById(Long id);
     List<Branch> findAllByParentId(Long parentId);
-    public List<Branch> findByRegionId(Long regionId);
+    List<Branch> findByStructureId(Long structureId);
     }

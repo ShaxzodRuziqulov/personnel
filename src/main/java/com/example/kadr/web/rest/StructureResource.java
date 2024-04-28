@@ -9,6 +9,8 @@ package com.example.kadr.web.rest;
 import com.example.kadr.entity.Structure;
 import com.example.kadr.service.StructureService;
 import com.example.kadr.service.dto.StructureDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/structure")
 public class StructureResource {
+    private final Logger log = LoggerFactory.getLogger(BranchResource.class);
     private final StructureService structureService;
 
     public StructureResource(StructureService structureService) {
@@ -29,9 +32,18 @@ public class StructureResource {
         return ResponseEntity.ok(response);
     }
 
+//    @PutMapping("/update")
+//    public ResponseEntity<?> update(@RequestBody StructureDTO structureDTO) {
+//        String response = structureService.update(structureDTO);
+//        return ResponseEntity.ok(response);
+//    }
+
     @PutMapping("/update")
-    public ResponseEntity<?> update(@RequestBody StructureDTO structureDTO) {
-        String response = structureService.update(structureDTO);
+    public ResponseEntity<?> updateNew(@RequestBody StructureDTO structureDTO) {
+        if (structureDTO.getId() == null) {
+            return ResponseEntity.ok("Id topilmadi");
+        }
+        String response = structureService.updateNew(structureDTO);
         return ResponseEntity.ok(response);
     }
 
@@ -41,8 +53,15 @@ public class StructureResource {
         return ResponseEntity.ok(structureDTOS);
     }
 
+    @GetMapping("/allByOrder")
+    public ResponseEntity<?> findAllByOrderBySortOrderAsc() {
+        List<StructureDTO> structureDTOS = structureService.findAllByOrderBySortOrderAsc();
+        return ResponseEntity.ok(structureDTOS);
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
+        log.debug("REST request to delete Branch : {}", id);
         structureService.delete(id);
         return ResponseEntity.ok("o'chirildi");
     }

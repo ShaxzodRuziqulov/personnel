@@ -6,17 +6,15 @@
  */
 package com.example.kadr.service.impl;
 
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.example.kadr.repository.PositionRepository;
 import com.example.kadr.entity.Position;
-import com.example.kadr.entity.request.ReqPosition;
 import com.example.kadr.service.PositionService;
 import com.example.kadr.service.dto.PositionDTO;
-import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PositionServiceImpl implements PositionService {
@@ -29,8 +27,7 @@ public class PositionServiceImpl implements PositionService {
     @Override
     public String create(PositionDTO positionDTO) {
         try {
-            Position position = new Position();
-            position.setName(positionDTO.getName());
+            positionRepository.save(toEntity(positionDTO));
             return "Muvaffaqiyatli saqlandi";
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,17 +38,8 @@ public class PositionServiceImpl implements PositionService {
     @Override
     public String update(PositionDTO positionDTO) {
         try {
-            if (positionDTO.getId() != null) {
-                if (positionRepository.findById(positionDTO.getId()).isPresent()) {
-                    Position position = positionRepository.findById(positionDTO.getId()).get();
-                    position.setName(positionDTO.getName());
-                    return "Muvaffaqiyatli uzgartirildi";
-                } else {
-                    return "Id topilmadi";
-                }
-            }else {
-                return "Xatolik: id null ga teng";
-            }
+            positionRepository.save(toEntity(positionDTO));
+            return "Muvaffaqiyatli uzgartirildi";
         } catch (Exception e) {
             e.printStackTrace();
             return "Xatolik";
@@ -63,26 +51,33 @@ public class PositionServiceImpl implements PositionService {
         return toDTOS(positionRepository.findAll());
     }
 
+    public List<PositionDTO> toDTOS(List<Position> positions) {
+        List<PositionDTO> positionDTOS = new ArrayList<>();
+        for (Position position : positions) {
+            PositionDTO positionDTO = new PositionDTO();
+            positionDTO.setId(position.getId());
+            positionDTO.setName(position.getName());
+            positionDTO.setStatus(String.valueOf(position.getStatus()));
+            positionDTOS.add(positionDTO);
+        }
+        return positionDTOS;
+    }
+
     @Override
     public void delete(Long id) {
-        Position position = positionRepository.getReferenceById(id);
-        positionRepository.delete(position);
+        positionRepository.updateStatus(id, CommonStatus.DELETED);
     }
 
-    public List<PositionDTO> toDTOS(List<Position> positions) {
-        return positions.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
-    }
-
-    private PositionDTO convertToDTO(Position position) {
-        PositionDTO positionDTO = new PositionDTO();
-        positionDTO.setId(position.getId());
-        positionDTO.setName(position.getName());
-        return positionDTO;
-    }
 
     public Position findById(Long id) {
         return positionRepository.findById(id).orElseGet(Position::new);
+    }
+
+    public Position toEntity(PositionDTO positionDTO) {
+        Position position = new Position();
+        position.setId(positionDTO.getId());
+        position.setName(positionDTO.getName());
+        position.setStatus(CommonStatus.valueOf(positionDTO.getStatus()));
+        return position;
     }
 }

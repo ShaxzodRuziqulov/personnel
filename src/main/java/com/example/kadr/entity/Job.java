@@ -6,6 +6,7 @@
  */
 package com.example.kadr.entity;
 
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,6 +17,8 @@ public class Job {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Enumerated(EnumType.STRING)
+    private CommonStatus status;
     @ManyToOne
     private Department department;
     @ManyToOne

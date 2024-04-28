@@ -11,6 +11,7 @@ public class DepartmentDTO {
     private Long id;
     private String name;
     private Long branchId;
+    private String status;
 
     public Long getId() {
         return id;
@@ -34,5 +35,13 @@ public class DepartmentDTO {
 
     public void setBranchId(Long branchId) {
         this.branchId = branchId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

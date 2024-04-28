@@ -6,10 +6,7 @@
  */
 package com.example.kadr.service;
 
-import com.example.kadr.entity.Job;
 import com.example.kadr.entity.Position;
-import com.example.kadr.entity.request.ReqJob;
-import com.example.kadr.entity.request.ReqPosition;
 import com.example.kadr.service.dto.PositionDTO;
 
 import java.util.List;

@@ -6,10 +6,14 @@
  */
 package com.example.kadr.service.impl;
 
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.example.kadr.repository.StructureRepository;
 import com.example.kadr.entity.Structure;
+import com.example.kadr.service.BranchService;
 import com.example.kadr.service.StructureService;
 import com.example.kadr.service.dto.StructureDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +22,7 @@ import java.util.Optional;
 
 @Service
 public class StructureServiceImpl implements StructureService {
+    private final Logger log = LoggerFactory.getLogger(BranchService.class);
     private final StructureRepository structureRepository;
 
     public StructureServiceImpl(StructureRepository structureRepository) {
@@ -26,11 +31,7 @@ public class StructureServiceImpl implements StructureService {
 
     public String create(StructureDTO structureDTO) {
         try {
-            Structure structure = new Structure();
-            structure.setName(structureDTO.getName());
-            structure.setSortOrder(structureDTO.getSortOrder());
-            structure.setParent(setParentId(structureDTO.getParentId()));
-            structureRepository.save(structure);
+            structureRepository.save(toEntity(structureDTO));
             return "Muvaffaqiyatli saqlandi";
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,6 +68,41 @@ public class StructureServiceImpl implements StructureService {
 
     }
 
+    public String updateNew(StructureDTO structureDTO) {
+        try {
+            structureRepository.save(toEntity(structureDTO));
+            return "Muvaffaqiyatli uzgartirildi";
+        } catch (
+                Exception e) {
+            e.printStackTrace();
+            return "Xatolik";
+        }
+
+    }
+
+    public List<StructureDTO> all() {
+        return toDTOS(structureRepository.findAll());
+    }
+
+    public List<StructureDTO> findAllByOrderBySortOrderAsc() {
+        return toDTOS(structureRepository.findAllByOrderBySortOrderAsc());
+    }
+
+    public void delete(Long id) {
+        log.debug("Request to delete Branch : {}", id);
+        structureRepository.updateStatus(id, CommonStatus.DELETED);
+    }
+
+    @Override
+    public List<StructureDTO> findAllByParentId(Long parentId) {
+        return toDTOS(structureRepository.findAllByParentId(parentId));
+    }
+
+    public Structure findById(Long id) {
+        Optional<Structure> optional = structureRepository.findById(id);
+        return optional.orElseGet(Structure::new);
+    }
+
     public StructureDTO toDto(Structure structure) {
         StructureDTO structureDTO = new StructureDTO();
         structureDTO.setId(structure.getId());
@@ -75,6 +111,16 @@ public class StructureServiceImpl implements StructureService {
         structureDTO.setParentId(structure.getParent() != null ? structure.getParent().getId() : null);
         structureDTO.setParentName(structure.getParent() != null ? structure.getParent().getName() : null);
         return structureDTO;
+    }
+
+    public Structure toEntity(StructureDTO structureDTO) {
+        Structure structure = new Structure();
+        structure.setId(structureDTO.getId());
+        structure.setName(structureDTO.getName());
+        structure.setStatus(CommonStatus.valueOf(structureDTO.getStatus()));
+        structure.setSortOrder(structureDTO.getSortOrder());
+        structure.setParent(setParentId(structureDTO.getParentId()));
+        return structure;
     }
 
     public List<StructureDTO> toDTOS(List<Structure> structures) {
@@ -91,25 +137,5 @@ public class StructureServiceImpl implements StructureService {
 
         return resStructureDTOS;
     }
-
-    public List<StructureDTO> all() {
-        return toDTOS(structureRepository.findAll());
-    }
-
-    public void delete(Long id) {
-        Structure delete = structureRepository.getReferenceById(id);
-        structureRepository.delete(delete);
-    }
-
-    @Override
-    public List<StructureDTO> findAllByParentId(Long parentId) {
-        return toDTOS(structureRepository.findAllByParentId(parentId));
-    }
-
-    public Structure findById(Long id) {
-        Optional<Structure> optional = structureRepository.findById(id);
-        return optional.orElseGet(Structure::new);
-    }
-
 
 }

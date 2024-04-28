@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/api/district/")
 public class DistrictResource {
@@ -23,28 +24,34 @@ public class DistrictResource {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody DistrictDTO districtDTO){
+    public ResponseEntity<?> create(@RequestBody DistrictDTO districtDTO) {
         String response = districtService.create(districtDTO);
         return ResponseEntity.ok(response);
     }
+
     @PutMapping("/update")
-    public ResponseEntity<?> update(@RequestBody DistrictDTO districtDTO){
+    public ResponseEntity<?> update(@RequestBody DistrictDTO districtDTO) {
+        if (districtDTO.getId() == null) {
+            return ResponseEntity.ok("id topilmadi");
+        }
         String response = districtService.update(districtDTO);
         return ResponseEntity.ok(response);
     }
+
     @GetMapping("/all")
-    public ResponseEntity<?> all(){
-        List<District> branches = districtService.all();
+    public ResponseEntity<?> all() {
+        List<DistrictDTO> branches = districtService.all();
         return ResponseEntity.ok(branches);
     }
+
     @GetMapping("/by-id/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id){
+    public ResponseEntity<?> findById(@PathVariable Long id) {
         District district = districtService.findById(id);
         return ResponseEntity.ok(district);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         districtService.delete(id);
         return ResponseEntity.ok("o'chirildi");
     }

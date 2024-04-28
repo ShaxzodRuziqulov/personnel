@@ -7,9 +7,10 @@
 package com.example.kadr.web.rest;
 
 import com.example.kadr.entity.Branch;
-import com.example.kadr.entity.Region;
 import com.example.kadr.service.BranchService;
 import com.example.kadr.service.dto.BranchDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/branch")
 public class BranchResource {
+    private final Logger log = LoggerFactory.getLogger(BranchResource.class);
     private final BranchService branchService;
 
     public BranchResource(BranchService branchService) {
@@ -32,6 +34,9 @@ public class BranchResource {
 
     @PutMapping("/update")
     public ResponseEntity<?> update(@RequestBody BranchDTO branchDTO) {
+        if (branchDTO == null) {
+            return ResponseEntity.ok("Id topilmadi");
+        }
         String response = branchService.update(branchDTO);
         return ResponseEntity.ok(response);
     }
@@ -48,20 +53,21 @@ public class BranchResource {
         return ResponseEntity.ok(branch);
     }
 
-    @GetMapping("/all-by/parentId")
+    @GetMapping("/all-by/{parentId}")
     public ResponseEntity<?> parentId(@PathVariable Long parentId) {
         List<Branch> branch = branchService.findAllByParentId(parentId);
         return ResponseEntity.ok(branch);
     }
 
-    @GetMapping("/by-region/{regionId}")
-    public ResponseEntity<?> findByRegionId(@PathVariable Long regionId) {
-        List<Branch> branch = branchService.findByRegionId(regionId);
+    @GetMapping("/by-structure/{structureId}")
+    public ResponseEntity<?> findByStructureId(@PathVariable Long structureId) {
+        List<Branch> branch = branchService.findByStructureId(structureId);
         return ResponseEntity.ok(branch);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
+        log.debug("REST request to delete Branch : {}", id);
         branchService.delete(id);
         return ResponseEntity.ok("o'chirildi");
     }

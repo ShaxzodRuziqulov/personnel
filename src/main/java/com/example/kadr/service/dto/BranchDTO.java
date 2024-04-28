@@ -14,6 +14,7 @@ public class BranchDTO {
     private Long regionId;
     private String parentName;
     private Long districtId;
+    private String status;
 
     public Long getId() {
         return id;
@@ -69,5 +70,13 @@ public class BranchDTO {
 
     public void setDistrictId(Long districtId) {
         this.districtId = districtId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

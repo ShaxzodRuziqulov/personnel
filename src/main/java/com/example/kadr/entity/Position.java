@@ -6,10 +6,8 @@
  */
 package com.example.kadr.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -19,4 +17,6 @@ public class Position {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Enumerated(EnumType.STRING)
+    private CommonStatus status;
 }

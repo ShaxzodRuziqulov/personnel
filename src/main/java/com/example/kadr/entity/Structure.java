@@ -6,10 +6,9 @@
  */
 package com.example.kadr.entity;
 
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Data;
-import org.springframework.context.annotation.Lazy;
 
 @Entity
 public class Structure {
@@ -18,6 +17,8 @@ public class Structure {
     private Long id;
     private String name;
     private Long sortOrder;
+    @Enumerated(EnumType.STRING)
+    private CommonStatus status;
     @ManyToOne
     @JsonBackReference
     private Structure parent;
@@ -52,5 +53,13 @@ public class Structure {
 
     public void setParent(Structure parent) {
         this.parent = parent;
+    }
+
+    public CommonStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CommonStatus status) {
+        this.status = status;
     }
 }

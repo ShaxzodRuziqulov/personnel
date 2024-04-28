@@ -13,6 +13,7 @@ public class JobDTO {
     private String name;
     private Long departmentId;
     private Long positionId;
+    private String status;
 
     public Long getId() {
         return id;
@@ -44,5 +45,13 @@ public class JobDTO {
 
     public void setPositionId(Long positionId) {
         this.positionId = positionId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

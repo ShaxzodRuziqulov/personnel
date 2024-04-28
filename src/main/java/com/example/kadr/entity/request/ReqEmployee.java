@@ -6,7 +6,7 @@
  */
 package com.example.kadr.entity.request;
 
-import com.example.kadr.entity.enumitation.EmployeeStatus;
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import lombok.Data;
 
 @Data
@@ -15,7 +15,7 @@ public class ReqEmployee {
     private String firstName;
     private String lastName;
     private String dateBirth;
-    private EmployeeStatus status;
+    private CommonStatus status;
     private Long jobId;
     private String username;
     private int gender;

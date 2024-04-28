@@ -7,12 +7,15 @@
 package com.example.kadr.service.impl;
 
 import com.example.kadr.entity.Region;
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.example.kadr.repository.RegionRepository;
 import com.example.kadr.service.RegionService;
 import com.example.kadr.service.dto.RegionDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class RegionServiceImpl implements RegionService {
     private final RegionRepository regionRepository;
@@ -24,9 +27,7 @@ public class RegionServiceImpl implements RegionService {
     @Override
     public String create(RegionDTO regionDTO) {
         try {
-            Region region = new Region();
-            region.setName(regionDTO.getName());
-            regionRepository.save(region);
+            regionRepository.save(toEntity(regionDTO));
             return "Muvoffaqiyatli saqlandi";
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,18 +38,8 @@ public class RegionServiceImpl implements RegionService {
     @Override
     public String update(RegionDTO regionDTO) {
         try {
-            if (regionDTO.getId() != null) {
-                if (regionRepository.findById(regionDTO.getId()).isPresent()) {
-                    Region region = regionRepository.findById(regionDTO.getId()).get();
-                    region.setName(regionDTO.getName());
-                    regionRepository.save(region);
-                    return "Muvaffaqiyatli uzgartirildi";
-                } else {
-                    return "Id topilmadi";
-                }
-            } else {
-                return "Xatolik: id null ga teng";
-            }
+            regionRepository.save(toEntity(regionDTO));
+            return "Muvaffaqiyatli uzgartirildi";
         } catch (Exception e) {
             e.printStackTrace();
             return "Xatolik";
@@ -56,8 +47,8 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public List<Region> all() {
-        return regionRepository.findAll();
+    public List<RegionDTO> all() {
+        return toDTOS(regionRepository.findAll());
     }
 
     @Override
@@ -67,7 +58,27 @@ public class RegionServiceImpl implements RegionService {
 
     @Override
     public void delete(Long id) {
-        Region region = regionRepository.getReferenceById(id);
-        regionRepository.delete(region);
+        regionRepository.updateStatus(id, CommonStatus.DELETED);
+    }
+
+    public Region toEntity(RegionDTO regionDTO) {
+        Region region = new Region();
+        region.setId(regionDTO.getId());
+        region.setName(regionDTO.getName());
+        region.setStatus(CommonStatus.valueOf(regionDTO.getStatus()));
+        return region;
+    }
+
+    public List<RegionDTO> toDTOS(List<Region> regions) {
+        List<RegionDTO> regionDTOList = new ArrayList<>();
+        for (Region region :
+                regions) {
+            RegionDTO regionDTO = new RegionDTO();
+            regionDTO.setId(region.getId());
+            regionDTO.setName(region.getName());
+            regionDTO.setStatus(String.valueOf(region.getStatus()));
+            regionDTOList.add(regionDTO);
+        }
+        return regionDTOList;
     }
 }
