@@ -14,6 +14,7 @@ import com.example.kadr.repository.StructureRepository;
 import com.example.kadr.entity.Branch;
 import com.example.kadr.service.BranchService;
 import com.example.kadr.service.dto.BranchDTO;
+import com.example.kadr.service.dto.StructureBranchList;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BranchServiceImpl implements BranchService {
@@ -29,6 +32,7 @@ public class BranchServiceImpl implements BranchService {
     private final RegionRepository regionRepository;
     private final StructureRepository structureRepository;
     private final DistrictRepository districtRepository;
+
 
     public BranchServiceImpl(BranchRepository branchRepository, RegionRepository regionRepository, StructureRepository structureRepository, DistrictRepository districtRepository) {
         this.branchRepository = branchRepository;
@@ -74,10 +78,12 @@ public class BranchServiceImpl implements BranchService {
 //        Branch branch = branchRepository.getReferenceById(id);
 //        branchRepository.delete(branch);
 //    }
+
     public void delete(Long id) {
         log.debug("Request to delete Branch : {}", id);
         branchRepository.updateStatus(id, CommonStatus.DELETED);
     }
+
 
     public Branch findById(Long id) {
         return branchRepository.findById(id).orElseGet(Branch::new);
@@ -90,6 +96,8 @@ public class BranchServiceImpl implements BranchService {
     public List<Branch> findByStructureId(Long structureId) {
         return branchRepository.findByStructureId(structureId);
     }
+
+
 
     public Branch toEntity(BranchDTO branchDTO) {
         Branch branch = new Branch();

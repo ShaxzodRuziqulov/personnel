@@ -11,6 +11,7 @@ import com.example.kadr.repository.StructureRepository;
 import com.example.kadr.entity.Structure;
 import com.example.kadr.service.BranchService;
 import com.example.kadr.service.StructureService;
+import com.example.kadr.service.dto.StructureBranchList;
 import com.example.kadr.service.dto.StructureDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,7 @@ public class StructureServiceImpl implements StructureService {
     public StructureServiceImpl(StructureRepository structureRepository) {
         this.structureRepository = structureRepository;
     }
+
 
     public String create(StructureDTO structureDTO) {
         try {
@@ -138,5 +140,6 @@ public class StructureServiceImpl implements StructureService {
 
         return resStructureDTOS;
     }
+
 
 }

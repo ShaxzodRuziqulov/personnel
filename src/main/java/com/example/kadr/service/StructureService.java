@@ -7,6 +7,7 @@
 package com.example.kadr.service;
 
 import com.example.kadr.entity.Structure;
+import com.example.kadr.service.dto.StructureBranchList;
 import com.example.kadr.service.dto.StructureDTO;
 
 import java.util.List;
