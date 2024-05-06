@@ -8,9 +8,9 @@ package com.example.kadr.service;
 
 import com.example.kadr.entity.Branch;
 import com.example.kadr.service.dto.BranchDTO;
+import com.example.kadr.service.dto.StructureBranchList;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface BranchService {
     String create(BranchDTO branchDTO);
@@ -25,6 +25,7 @@ public interface BranchService {
 
     List<Branch> findAllByParentId(Long parentId);
 
-    List<Branch> findByStructureId(Long structureId);
+    List<BranchDTO>findBranchByStructureId(Long structureId);
+    StructureBranchList findAllStructureAndBranchByStructureId(Long structureId);
 
 }

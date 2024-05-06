@@ -7,7 +7,6 @@
 package com.example.kadr.web.rest;
 
 import com.example.kadr.entity.Department;
-import com.example.kadr.entity.request.ReqDepartment;
 import com.example.kadr.service.DepartmentService;
 import com.example.kadr.service.dto.DepartmentDTO;
 import org.springframework.http.ResponseEntity;
@@ -48,9 +47,9 @@ public class DepartmentResource {
         return ResponseEntity.ok(department);
     }
 
-    @GetMapping("/by-branch/{id}")
-    public ResponseEntity<?> findByBranchId(@PathVariable Long id) {
-        List<Department> department = departmentService.findByBranchId(id);
+    @GetMapping("/by-branch/{branchId}")
+    public ResponseEntity<?> findByBranchId(@PathVariable Long branchId) {
+        List<DepartmentDTO> department = departmentService.findByBranchId(branchId);
         return ResponseEntity.ok(department);
     }
 

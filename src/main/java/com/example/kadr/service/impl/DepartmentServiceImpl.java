@@ -12,12 +12,11 @@ import com.example.kadr.repository.DepartmentRepository;
 import com.example.kadr.entity.Department;
 import com.example.kadr.service.DepartmentService;
 import com.example.kadr.service.dto.DepartmentDTO;
-import jakarta.persistence.EntityNotFoundException;
+import com.example.kadr.service.mapper.DepartmentMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,16 +24,18 @@ public class DepartmentServiceImpl implements DepartmentService {
     private final Logger log = LoggerFactory.getLogger(DepartmentService.class);
     private final DepartmentRepository departmentRepository;
     private final BranchRepository branchRepository;
+    private final DepartmentMapper departmentMapper;
 
-    public DepartmentServiceImpl(DepartmentRepository departmentRepository, BranchRepository branchRepository) {
+    public DepartmentServiceImpl(DepartmentRepository departmentRepository, BranchRepository branchRepository, DepartmentMapper departmentMapper) {
         this.departmentRepository = departmentRepository;
         this.branchRepository = branchRepository;
+        this.departmentMapper = departmentMapper;
     }
 
     @Override
     public String create(DepartmentDTO departmentDTO) {
         try {
-            departmentRepository.save(toEntity(departmentDTO));
+            departmentRepository.save(departmentMapper.toEntity(departmentDTO));
             return "Muvaffaqiyatli saqlandi";
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,7 +46,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public String update(DepartmentDTO departmentDTO) {
         try {
-            departmentRepository.save(toEntity(departmentDTO));
+            departmentRepository.save(departmentMapper.toEntity(departmentDTO));
             return "Muvaffaqiyatli uzgartirildi";
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,7 +56,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<DepartmentDTO> all() {
-        return toDTOS(departmentRepository.findAll());
+        return departmentMapper.toDTOS(departmentRepository.findAll());
     }
 
     public Department findById(Long id) {
@@ -67,29 +68,10 @@ public class DepartmentServiceImpl implements DepartmentService {
         log.debug("Request to delete Department : {}", id);
         branchRepository.updateStatus(id, CommonStatus.DELETED);
     }
-    public List<Department> findByBranchId(Long id){
-        return departmentRepository.findByBranchId(id);
+    public List<DepartmentDTO> findByBranchId(Long id){
+        List<Department> department = departmentRepository.findByBranchId(id);
+        return departmentMapper.toDTOS(department);
     }
 
-    public List<DepartmentDTO> toDTOS(List<Department> departments) {
-        List<DepartmentDTO> departmentDTOList = new ArrayList<>();
-        for (Department department : departments) {
-            DepartmentDTO departmentDto = new DepartmentDTO();
-            departmentDto.setId(department.getId());
-            departmentDto.setName(department.getName());
-            departmentDto.setBranchId(department.getBranch() != null ? department.getBranch().getId() : null);
-            departmentDto.setStatus(String.valueOf(department.getStatus()));
-            departmentDTOList.add(departmentDto);
-        }
-        return departmentDTOList;
-    }
 
-    public Department toEntity(DepartmentDTO departmentDTO) {
-        Department department = new Department();
-        department.setId(department.getId());
-        department.setName(departmentDTO.getName());
-        department.setBranch(branchRepository.findById(departmentDTO.getBranchId()).orElseThrow(() -> new EntityNotFoundException("branch topilmadi")));
-        department.setStatus(CommonStatus.valueOf(departmentDTO.getStatus()));
-        return department;
-    }
 }

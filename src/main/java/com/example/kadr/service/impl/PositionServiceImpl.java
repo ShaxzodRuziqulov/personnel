@@ -11,23 +11,25 @@ import com.example.kadr.repository.PositionRepository;
 import com.example.kadr.entity.Position;
 import com.example.kadr.service.PositionService;
 import com.example.kadr.service.dto.PositionDTO;
+import com.example.kadr.service.mapper.PositionMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class PositionServiceImpl implements PositionService {
     private final PositionRepository positionRepository;
+    private final PositionMapper positionMapper;
 
-    public PositionServiceImpl(PositionRepository positionRepository) {
+    public PositionServiceImpl(PositionRepository positionRepository, PositionMapper positionMapper) {
         this.positionRepository = positionRepository;
+        this.positionMapper = positionMapper;
     }
 
     @Override
     public String create(PositionDTO positionDTO) {
         try {
-            positionRepository.save(toEntity(positionDTO));
+            positionRepository.save(positionMapper.toEntity(positionDTO));
             return "Muvaffaqiyatli saqlandi";
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,7 +40,7 @@ public class PositionServiceImpl implements PositionService {
     @Override
     public String update(PositionDTO positionDTO) {
         try {
-            positionRepository.save(toEntity(positionDTO));
+            positionRepository.save(positionMapper.toEntity(positionDTO));
             return "Muvaffaqiyatli uzgartirildi";
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,19 +50,7 @@ public class PositionServiceImpl implements PositionService {
 
     @Override
     public List<PositionDTO> all() {
-        return toDTOS(positionRepository.findAll());
-    }
-
-    public List<PositionDTO> toDTOS(List<Position> positions) {
-        List<PositionDTO> positionDTOS = new ArrayList<>();
-        for (Position position : positions) {
-            PositionDTO positionDTO = new PositionDTO();
-            positionDTO.setId(position.getId());
-            positionDTO.setName(position.getName());
-            positionDTO.setStatus(String.valueOf(position.getStatus()));
-            positionDTOS.add(positionDTO);
-        }
-        return positionDTOS;
+        return positionMapper.toDTOS(positionRepository.findAll());
     }
 
     @Override
@@ -68,16 +58,9 @@ public class PositionServiceImpl implements PositionService {
         positionRepository.updateStatus(id, CommonStatus.DELETED);
     }
 
-
     public Position findById(Long id) {
         return positionRepository.findById(id).orElseGet(Position::new);
     }
 
-    public Position toEntity(PositionDTO positionDTO) {
-        Position position = new Position();
-        position.setId(positionDTO.getId());
-        position.setName(positionDTO.getName());
-        position.setStatus(CommonStatus.valueOf(positionDTO.getStatus()));
-        return position;
-    }
+
 }

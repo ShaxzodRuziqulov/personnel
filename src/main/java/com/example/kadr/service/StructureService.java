@@ -15,7 +15,7 @@ import java.util.List;
 public interface StructureService {
     String create(StructureDTO structureDTO);
 
-    String update(StructureDTO structureDTO);
+//    String update(StructureDTO structureDTO);
 
     String updateNew(StructureDTO structureDTO);
 

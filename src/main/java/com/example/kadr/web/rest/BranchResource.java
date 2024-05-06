@@ -9,6 +9,7 @@ package com.example.kadr.web.rest;
 import com.example.kadr.entity.Branch;
 import com.example.kadr.service.BranchService;
 import com.example.kadr.service.dto.BranchDTO;
+import com.example.kadr.service.dto.StructureBranchList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -61,8 +62,13 @@ public class BranchResource {
 
     @GetMapping("/by-structure/{structureId}")
     public ResponseEntity<?> findByStructureId(@PathVariable Long structureId) {
-        List<Branch> branch = branchService.findByStructureId(structureId);
-        return ResponseEntity.ok(branch);
+        List<BranchDTO> branchDTOS = branchService.findBranchByStructureId(structureId);
+        return ResponseEntity.ok(branchDTOS);
+    }
+    @GetMapping("/by-structure/list/{structureId}")
+    public ResponseEntity<?> findAllStructureAndBranchByStructureId(@PathVariable Long structureId) {
+        StructureBranchList branchDTOS = branchService.findAllStructureAndBranchByStructureId(structureId);
+        return ResponseEntity.ok(branchDTOS);
     }
 
     @DeleteMapping("/delete/{id}")
