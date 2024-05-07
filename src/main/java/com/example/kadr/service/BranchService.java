@@ -23,7 +23,7 @@ public interface BranchService {
 
     Branch findById(Long id);
 
-    List<Branch> findAllByParentId(Long parentId);
+    List<BranchDTO> findAllByParentId(Long parentId);
 
     List<BranchDTO>findBranchByStructureId(Long structureId);
     StructureBranchList findAllStructureAndBranchByStructureId(Long structureId);

@@ -11,6 +11,7 @@ import com.example.kadr.entity.Job;
 import com.example.kadr.entity.request.ReqBranch;
 import com.example.kadr.entity.request.ReqJob;
 import com.example.kadr.service.JobService;
+import com.example.kadr.service.dto.DepartmentJobList;
 import com.example.kadr.service.dto.JobDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,10 +52,14 @@ public class JobResource {
     }
     @GetMapping("/by-departmentId/{id}")
     public ResponseEntity<?> findByDepartmentId(@PathVariable Long id) {
-        List<Job> job = jobService.findByDepartmentId(id);
+        List<JobDTO> job = jobService.findAllJobByDepartmentId(id);
         return ResponseEntity.ok(job);
     }
-
+    @GetMapping("/by-departmentId/list/{departmentId}")
+    public ResponseEntity<?> findDepartmentByJob(@PathVariable Long departmentId) {
+        DepartmentJobList job = jobService.findAllDepartmentByJobId(departmentId);
+        return ResponseEntity.ok(job);
+    }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         jobService.delete(id);

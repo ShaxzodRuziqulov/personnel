@@ -7,6 +7,7 @@
 package com.example.kadr.service;
 
 import com.example.kadr.entity.Department;
+import com.example.kadr.service.dto.BranchDepartmentList;
 import com.example.kadr.service.dto.DepartmentDTO;
 
 import java.util.List;
@@ -21,5 +22,6 @@ public interface DepartmentService {
     void delete(Long id);
 
     Department findById(Long id);
-    List<DepartmentDTO> findByBranchId(Long id);
+    List<DepartmentDTO> findDepartmentByBranchId(Long id);
+    BranchDepartmentList findAllBranchAndDepartmentByBranchId(Long branchId);
 }

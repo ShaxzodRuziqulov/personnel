@@ -10,8 +10,10 @@ import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.example.kadr.repository.BranchRepository;
 import com.example.kadr.entity.Branch;
 import com.example.kadr.service.BranchService;
+import com.example.kadr.service.DepartmentService;
 import com.example.kadr.service.StructureService;
 import com.example.kadr.service.dto.BranchDTO;
+import com.example.kadr.service.dto.BranchDepartmentList;
 import com.example.kadr.service.dto.StructureBranchList;
 import com.example.kadr.service.mapper.BranchMapper;
 import org.slf4j.Logger;
@@ -27,7 +29,11 @@ public class BranchServiceImpl implements BranchService {
     private final BranchMapper branchMapper;
     private final StructureService structureService;
 
-    public BranchServiceImpl(BranchRepository branchRepository, BranchMapper branchMapper, StructureService structureService) {
+    public BranchServiceImpl(
+            BranchRepository branchRepository,
+            BranchMapper branchMapper,
+            StructureService structureService
+            ) {
         this.branchRepository = branchRepository;
         this.branchMapper = branchMapper;
         this.structureService = structureService;
@@ -75,8 +81,8 @@ public class BranchServiceImpl implements BranchService {
         return branchRepository.findById(id).orElseGet(Branch::new);
     }
 
-    public List<Branch> findAllByParentId(Long parentId) {
-        return branchRepository.findByParentId(parentId);
+    public List<BranchDTO> findAllByParentId(Long parentId) {
+        return branchMapper.toDTOS(branchRepository.findByParentId(parentId));
     }
 
     public List<BranchDTO> findBranchByStructureId(Long structureId) {
@@ -90,6 +96,4 @@ public class BranchServiceImpl implements BranchService {
         structureBranchList.setBranchList(findBranchByStructureId(structureId));
         return structureBranchList;
     }
-
-
 }

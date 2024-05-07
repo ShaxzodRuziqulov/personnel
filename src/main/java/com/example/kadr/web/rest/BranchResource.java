@@ -56,7 +56,7 @@ public class BranchResource {
 
     @GetMapping("/all-by/{parentId}")
     public ResponseEntity<?> parentId(@PathVariable Long parentId) {
-        List<Branch> branch = branchService.findAllByParentId(parentId);
+        List<BranchDTO> branch = branchService.findAllByParentId(parentId);
         return ResponseEntity.ok(branch);
     }
 

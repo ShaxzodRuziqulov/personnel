@@ -10,7 +10,9 @@ import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.example.kadr.repository.BranchRepository;
 import com.example.kadr.repository.DepartmentRepository;
 import com.example.kadr.entity.Department;
+import com.example.kadr.service.BranchService;
 import com.example.kadr.service.DepartmentService;
+import com.example.kadr.service.dto.BranchDepartmentList;
 import com.example.kadr.service.dto.DepartmentDTO;
 import com.example.kadr.service.mapper.DepartmentMapper;
 import org.slf4j.Logger;
@@ -25,11 +27,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     private final DepartmentRepository departmentRepository;
     private final BranchRepository branchRepository;
     private final DepartmentMapper departmentMapper;
+    private final BranchService branchService;
 
-    public DepartmentServiceImpl(DepartmentRepository departmentRepository, BranchRepository branchRepository, DepartmentMapper departmentMapper) {
+    public DepartmentServiceImpl(DepartmentRepository departmentRepository, BranchRepository branchRepository, DepartmentMapper departmentMapper, BranchService branchService) {
         this.departmentRepository = departmentRepository;
         this.branchRepository = branchRepository;
         this.departmentMapper = departmentMapper;
+        this.branchService = branchService;
     }
 
     @Override
@@ -68,10 +72,15 @@ public class DepartmentServiceImpl implements DepartmentService {
         log.debug("Request to delete Department : {}", id);
         branchRepository.updateStatus(id, CommonStatus.DELETED);
     }
-    public List<DepartmentDTO> findByBranchId(Long id){
+    public List<DepartmentDTO> findDepartmentByBranchId(Long id){
         List<Department> department = departmentRepository.findByBranchId(id);
         return departmentMapper.toDTOS(department);
     }
-
+    public BranchDepartmentList findAllBranchAndDepartmentByBranchId(Long branchId){
+        BranchDepartmentList branchDepartmentList = new BranchDepartmentList();
+        branchDepartmentList.setBranchDTOList(branchService.findAllByParentId(branchId));
+        branchDepartmentList.setDepartmentDTOList(findDepartmentByBranchId(branchId));
+        return branchDepartmentList;
+    }
 
 }

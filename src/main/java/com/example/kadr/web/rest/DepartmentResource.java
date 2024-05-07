@@ -8,6 +8,7 @@ package com.example.kadr.web.rest;
 
 import com.example.kadr.entity.Department;
 import com.example.kadr.service.DepartmentService;
+import com.example.kadr.service.dto.BranchDepartmentList;
 import com.example.kadr.service.dto.DepartmentDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,10 +50,14 @@ public class DepartmentResource {
 
     @GetMapping("/by-branch/{branchId}")
     public ResponseEntity<?> findByBranchId(@PathVariable Long branchId) {
-        List<DepartmentDTO> department = departmentService.findByBranchId(branchId);
+        List<DepartmentDTO> department = departmentService.findDepartmentByBranchId(branchId);
         return ResponseEntity.ok(department);
     }
-
+    @GetMapping("/by-branch/list/{branchId}")
+    public ResponseEntity<?> findAllBranchAndDepartment(@PathVariable Long branchId) {
+        BranchDepartmentList department = departmentService.findAllBranchAndDepartmentByBranchId(branchId);
+        return ResponseEntity.ok(department);
+    }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         departmentService.delete(id);
