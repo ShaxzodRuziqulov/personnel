@@ -12,11 +12,12 @@ import com.example.kadr.repository.JobRepository;
 import com.example.kadr.service.dto.EmployeeDTO;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Configuration
+@Component
 public class EmployeeMapper {
     private final JobRepository jobRepository;
 
