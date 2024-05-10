@@ -13,12 +13,12 @@ import com.example.kadr.repository.RegionRepository;
 import com.example.kadr.repository.StructureRepository;
 import com.example.kadr.service.dto.BranchDTO;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Configuration
+@Component
 public class BranchMapper {
     private final StructureRepository structureRepository;
     private final RegionRepository regionRepository;

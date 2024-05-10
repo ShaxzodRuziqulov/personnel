@@ -10,11 +10,12 @@ import com.example.kadr.entity.District;
 import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.example.kadr.service.dto.DistrictDTO;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Configuration
+@Component
 public class DistrictMapper {
     public List<DistrictDTO> toDTOS(List<District> districts) {
         List<DistrictDTO> districtList = new ArrayList<>();

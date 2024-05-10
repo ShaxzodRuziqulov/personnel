@@ -7,7 +7,6 @@
 package com.example.kadr.web.rest;
 
 import com.example.kadr.entity.Position;
-import com.example.kadr.entity.request.ReqPosition;
 import com.example.kadr.service.PositionService;
 import com.example.kadr.service.dto.PositionDTO;
 import org.springframework.http.ResponseEntity;

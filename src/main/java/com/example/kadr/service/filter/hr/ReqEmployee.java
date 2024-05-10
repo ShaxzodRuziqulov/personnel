@@ -4,7 +4,7 @@
  * DATE:22.04.2024
  * TIME:19:28
  */
-package com.example.kadr.entity.request;
+package com.example.kadr.service.filter.hr;
 
 import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import lombok.Data;

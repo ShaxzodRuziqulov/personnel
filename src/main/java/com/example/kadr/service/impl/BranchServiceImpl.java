@@ -10,10 +10,8 @@ import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.example.kadr.repository.BranchRepository;
 import com.example.kadr.entity.Branch;
 import com.example.kadr.service.BranchService;
-import com.example.kadr.service.DepartmentService;
 import com.example.kadr.service.StructureService;
 import com.example.kadr.service.dto.BranchDTO;
-import com.example.kadr.service.dto.BranchDepartmentList;
 import com.example.kadr.service.dto.StructureBranchList;
 import com.example.kadr.service.mapper.BranchMapper;
 import org.slf4j.Logger;
@@ -73,7 +71,6 @@ public class BranchServiceImpl implements BranchService {
 //    }
 
     public void delete(Long id) {
-        log.debug("Request to delete Branch : {}", id);
         branchRepository.updateStatus(id, CommonStatus.DELETED);
     }
 
@@ -95,5 +92,23 @@ public class BranchServiceImpl implements BranchService {
         structureBranchList.setStructureList(structureService.findAllByParentId(structureId));
         structureBranchList.setBranchList(findBranchByStructureId(structureId));
         return structureBranchList;
+    }
+    public List<BranchDTO> findByRegionId(Long id){
+        return branchMapper.toDTOS(branchRepository.findByRegionId(id));
+    }
+    public List<BranchDTO> findByStatusActive(){
+        return branchMapper
+                .toDTOS(branchRepository
+                        .findByStatusOrderByName(CommonStatus.ACTIVE));
+    }
+    public List<BranchDTO> findByStatusInActive(){
+        return branchMapper
+                .toDTOS(branchRepository
+                        .findByStatusOrderByName(CommonStatus.INACTIVE));
+    }
+
+    @Override
+    public Long countBranchesByStatus() {
+       return branchRepository.countActiveBranches(CommonStatus.ACTIVE);
     }
 }

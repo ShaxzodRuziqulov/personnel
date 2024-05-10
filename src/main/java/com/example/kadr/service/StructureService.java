@@ -7,6 +7,7 @@
 package com.example.kadr.service;
 
 import com.example.kadr.entity.Structure;
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.example.kadr.service.dto.StructureBranchList;
 import com.example.kadr.service.dto.StructureDTO;
 
@@ -20,9 +21,18 @@ public interface StructureService {
     String updateNew(StructureDTO structureDTO);
 
     List<StructureDTO> all();
-    List<StructureDTO> findAllByOrderBySortOrderAsc();
+
+    List<StructureDTO> findAllByOrderBySortOrderDesc();
 
     List<StructureDTO> findAllByParentId(Long parentId);
-    Structure findById (Long id);
+
+    Structure findById(Long id);
+
     void delete(Long id);
+
+    List<StructureDTO> findAllByParentIsNull();
+
+    List<StructureDTO> findAllHrStructureList(Long parentId);
+
+    List<StructureDTO> findAllList();
 }

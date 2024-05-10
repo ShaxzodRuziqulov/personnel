@@ -4,9 +4,8 @@
  * DATE:22.04.2024
  * TIME:15:44
  */
-package com.example.kadr.entity.request;
+package com.example.kadr.service.filter.hr;
 
-import com.example.kadr.entity.Branch;
 import lombok.Data;
 
 @Data

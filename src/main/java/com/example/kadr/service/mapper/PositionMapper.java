@@ -10,11 +10,12 @@ import com.example.kadr.entity.Position;
 import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.example.kadr.service.dto.PositionDTO;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Configuration
+@Component
 public class PositionMapper {
     public Position toEntity(PositionDTO positionDTO) {
         Position position = new Position();

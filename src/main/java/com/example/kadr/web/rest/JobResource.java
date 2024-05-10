@@ -6,10 +6,7 @@
  */
 package com.example.kadr.web.rest;
 
-import com.example.kadr.entity.Branch;
 import com.example.kadr.entity.Job;
-import com.example.kadr.entity.request.ReqBranch;
-import com.example.kadr.entity.request.ReqJob;
 import com.example.kadr.service.JobService;
 import com.example.kadr.service.dto.DepartmentJobList;
 import com.example.kadr.service.dto.JobDTO;

@@ -25,7 +25,15 @@ public interface BranchService {
 
     List<BranchDTO> findAllByParentId(Long parentId);
 
-    List<BranchDTO>findBranchByStructureId(Long structureId);
+    List<BranchDTO> findBranchByStructureId(Long structureId);
+
     StructureBranchList findAllStructureAndBranchByStructureId(Long structureId);
 
+    List<BranchDTO> findByRegionId(Long id);
+
+    List<BranchDTO> findByStatusActive();
+
+    List<BranchDTO> findByStatusInActive();
+
+    Long countBranchesByStatus();
 }

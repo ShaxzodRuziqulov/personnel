@@ -53,9 +53,9 @@ public class StructureResource {
         return ResponseEntity.ok(structureDTOS);
     }
 
-    @GetMapping("/allBySortOrderAsc")
-    public ResponseEntity<?> findAllByOrderBySortOrderAsc() {
-        List<StructureDTO> structureDTOS = structureService.findAllByOrderBySortOrderAsc();
+    @GetMapping("/allBySortOrderDesc")
+    public ResponseEntity<?> findAllByOrderBySortOrderDesc() {
+        List<StructureDTO> structureDTOS = structureService.findAllByOrderBySortOrderDesc();
         return ResponseEntity.ok(structureDTOS);
     }
 
@@ -76,6 +76,24 @@ public class StructureResource {
     public ResponseEntity<?> all(@PathVariable Long parentId) {
         List<StructureDTO> structure = structureService.findAllByParentId(parentId);
         return ResponseEntity.ok(structure);
+    }
+
+    @GetMapping("/parents")
+    public ResponseEntity<?> findAllByParentIsNull() {
+        List<StructureDTO> parentIsNull = structureService.findAllByParentIsNull();
+        return ResponseEntity.ok(parentIsNull);
+    }
+
+    @GetMapping("/list/{parentId}")
+    public ResponseEntity<?> findAllHrStructureList(@PathVariable Long parentId) {
+        List<StructureDTO> structureList = structureService.findAllHrStructureList(parentId);
+        return ResponseEntity.ok(structureList);
+    }
+
+    @GetMapping("/all-list")
+    public ResponseEntity<?> findAllList() {
+        List<StructureDTO> findAllList = structureService.findAllList();
+        return ResponseEntity.ok(findAllList);
     }
 
 }

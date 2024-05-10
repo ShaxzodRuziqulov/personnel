@@ -65,6 +65,7 @@ public class BranchResource {
         List<BranchDTO> branchDTOS = branchService.findBranchByStructureId(structureId);
         return ResponseEntity.ok(branchDTOS);
     }
+
     @GetMapping("/by-structure/list/{structureId}")
     public ResponseEntity<?> findAllStructureAndBranchByStructureId(@PathVariable Long structureId) {
         StructureBranchList branchDTOS = branchService.findAllStructureAndBranchByStructureId(structureId);
@@ -77,4 +78,27 @@ public class BranchResource {
         branchService.delete(id);
         return ResponseEntity.ok("o'chirildi");
     }
+
+    @GetMapping("/by-region/{regionId}")
+    public ResponseEntity<?> findByRegionId(@PathVariable Long regionId) {
+        List<BranchDTO> branchDTOS = branchService.findByRegionId(regionId);
+        return ResponseEntity.ok(branchDTOS);
+    }
+
+    @GetMapping("/by-statusActive")
+    public ResponseEntity<?> findByStatusActive() {
+        List<BranchDTO> branchDTOS = branchService.findByStatusActive();
+        return ResponseEntity.ok(branchDTOS);
+    }
+    @GetMapping("/by-statusInActive")
+    public ResponseEntity<?> findByStatusInActive() {
+        List<BranchDTO> branchDTOS = branchService.findByStatusInActive();
+        return ResponseEntity.ok(branchDTOS);
+    }
+    @GetMapping("/by-statusActive/count")
+    public ResponseEntity<?> findByStatusInActiveCount() {
+        Long branchDTOS = branchService.countBranchesByStatus();
+        return ResponseEntity.ok(branchDTOS);
+    }
+
 }

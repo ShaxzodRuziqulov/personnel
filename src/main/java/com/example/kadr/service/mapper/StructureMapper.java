@@ -10,11 +10,12 @@ import com.example.kadr.entity.Structure;
 import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.example.kadr.service.dto.StructureDTO;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Configuration
+@Component
 public class StructureMapper {
 
     public StructureDTO toDto(Structure structure) {

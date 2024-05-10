@@ -7,8 +7,6 @@
 package com.example.kadr.web.rest;
 
 import com.example.kadr.entity.Employee;
-import com.example.kadr.entity.request.ReqBranch;
-import com.example.kadr.entity.request.ReqEmployee;
 import com.example.kadr.service.EmployeeService;
 import com.example.kadr.service.dto.EmployeeDTO;
 import org.springframework.http.ResponseEntity;

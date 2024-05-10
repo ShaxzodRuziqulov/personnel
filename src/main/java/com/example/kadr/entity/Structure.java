@@ -9,9 +9,13 @@ package com.example.kadr.entity;
 import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.Getter;
 
+import java.io.Serializable;
+
+@Getter
 @Entity
-public class Structure {
+public class Structure implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,40 +27,20 @@ public class Structure {
     @JsonBackReference
     private Structure parent;
 
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public Long getSortOrder() {
-        return sortOrder;
-    }
-
     public void setSortOrder(Long sortOrder) {
         this.sortOrder = sortOrder;
     }
 
-    public Structure getParent() {
-        return parent;
-    }
-
     public void setParent(Structure parent) {
         this.parent = parent;
-    }
-
-    public CommonStatus getStatus() {
-        return status;
     }
 
     public void setStatus(CommonStatus status) {

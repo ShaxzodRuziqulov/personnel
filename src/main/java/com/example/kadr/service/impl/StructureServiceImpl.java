@@ -43,7 +43,6 @@ public class StructureServiceImpl implements StructureService {
     }
 
 
-
 //    public String update(StructureDTO structureDTO) {
 //        try {
 //            if (structureDTO.getId() != null) {
@@ -83,8 +82,8 @@ public class StructureServiceImpl implements StructureService {
         return structureMapper.toDTOS(structureRepository.findAll());
     }
 
-    public List<StructureDTO> findAllByOrderBySortOrderAsc() {
-        return structureMapper.toDTOS(structureRepository.findAllByOrderBySortOrderAsc());
+    public List<StructureDTO> findAllByOrderBySortOrderDesc() {
+        return structureMapper.toDTOS(structureRepository.findAllByOrderBySortOrderDesc());
     }
 
     public void delete(Long id) {
@@ -102,7 +101,31 @@ public class StructureServiceImpl implements StructureService {
         return optional.orElseGet(Structure::new);
     }
 
+    public List<StructureDTO> findAllByParentIsNull() {
+        return structureMapper.toDTOS(structureRepository.findAllByParentIsNullAndStatusOrderBySortOrder(CommonStatus.ACTIVE));
+    }
 
+    public List<StructureDTO> findAllHrStructureList(Long parentId) {
+        return structureMapper.toDTOS(structureRepository.findAllByParentIdOrderBySortOrderAsc(parentId));
+    }
+
+    public List<StructureDTO> findAllList() {
+        return structureMapper.toDTOS
+                (structureRepository.findAllByStatusOrderBySortOrderAsc
+                (CommonStatus.ACTIVE));
+    }
+
+//    public Page<StructureDTO> findAllPaging(
+//            Pageable pageable,
+//            Long id,
+//            String name,
+//            Long sortOrder,
+//            CommonStatus status,
+//            Long parentId) {
+//        Page<Structure> structurePage = structureRepository.findAllPaging(
+//                id, name, sortOrder, status, parentId,pageable);
+//        return structurePage.map(structureMapper::toDto);
+//    }
 
 
 }

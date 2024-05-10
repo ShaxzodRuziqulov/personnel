@@ -21,8 +21,17 @@ import java.util.List;
 public interface BranchRepository extends JpaRepository<Branch, Long> {
 
     List<Branch> findByParentId(Long parentId);
+
     List<Branch> findByStructureId(Long structureId);
-//    List<Branch> findAllByStructureIdAndParentIdIsNullAndStatusOrderBySortOrderAsc(Long StructureId, CommonStatus status);
+
+    List<Branch> findByRegionId(Long id);
+
+    List<Branch> findByStatusOrderByName(CommonStatus status);
+
+    @Query("select count (b) from Branch b where b.status =:status")
+    Long countActiveBranches(@Param("status")CommonStatus status);
+
+    //    List<Branch> findAllByStructureIdAndParentIdIsNullAndStatusOrderBySortOrderAsc(Long StructureId, CommonStatus status);
     @Transactional
     @Modifying
     @Query("update Branch a set a.status = :commonStatus where a.id = :id")
