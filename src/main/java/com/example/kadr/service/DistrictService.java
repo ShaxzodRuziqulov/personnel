@@ -8,6 +8,7 @@ package com.example.kadr.service;
 
 import com.example.kadr.entity.District;
 import com.example.kadr.service.dto.DistrictDTO;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -16,5 +17,6 @@ public interface DistrictService {
     String update(DistrictDTO districtDTO);
     List<DistrictDTO> all();
     District findById(Long id);
+    @Transactional
     void delete(Long id);
 }

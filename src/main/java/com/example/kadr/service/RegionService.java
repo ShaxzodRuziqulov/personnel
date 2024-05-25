@@ -8,6 +8,7 @@ package com.example.kadr.service;
 
 import com.example.kadr.entity.Region;
 import com.example.kadr.service.dto.RegionDTO;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -16,5 +17,6 @@ public interface RegionService {
     String update(RegionDTO regionDTO);
     List<RegionDTO> all();
     Region findById(Long id);
+    @Transactional
     void delete(Long id);
 }

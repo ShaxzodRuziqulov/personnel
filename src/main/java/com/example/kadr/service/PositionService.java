@@ -8,6 +8,7 @@ package com.example.kadr.service;
 
 import com.example.kadr.entity.Position;
 import com.example.kadr.service.dto.PositionDTO;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -18,6 +19,6 @@ public interface PositionService {
 
     List<PositionDTO> all();
     Position findById(Long id);
-
+    @Transactional
     void delete(Long id);
 }

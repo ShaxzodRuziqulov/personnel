@@ -53,14 +53,42 @@ public class DepartmentResource {
         List<DepartmentDTO> department = departmentService.findDepartmentByBranchId(branchId);
         return ResponseEntity.ok(department);
     }
+
     @GetMapping("/by-branch/list/{branchId}")
     public ResponseEntity<?> findAllBranchAndDepartment(@PathVariable Long branchId) {
         BranchDepartmentList department = departmentService.findAllBranchAndDepartmentByBranchId(branchId);
         return ResponseEntity.ok(department);
     }
+
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        departmentService.delete(id);
+    public ResponseEntity<?> deleteDepartment(@PathVariable Long id) {
+        departmentService.deleteDepartment(id);
         return ResponseEntity.ok("o'chirildi");
+    }
+    @PutMapping("/active/{id}")
+    public ResponseEntity<?> activeDepartment(@PathVariable Long id) {
+        departmentService.activeDepartment(id);
+        return ResponseEntity.ok("Active qilindi");
+    }
+    @PutMapping("/inactive/{id}")
+    public ResponseEntity<?> deActiveDepartment(@PathVariable Long id) {
+        departmentService.inActiveDepartment(id);
+        return ResponseEntity.ok("InActive qilindi");
+    }
+
+    @GetMapping("/by-status/active")
+    private ResponseEntity<?> findByStatusActive() {
+        List<DepartmentDTO> findByStatusActive = departmentService.findByStatusActive();
+        return ResponseEntity.ok(findByStatusActive);
+    }
+    @GetMapping("/by-status/inactive")
+    private ResponseEntity<?> findByStatusInActive() {
+        List<DepartmentDTO> findByStatusInActive = departmentService.findByStatusInActive();
+        return ResponseEntity.ok(findByStatusInActive);
+    }
+    @GetMapping("/by-status/active/count")
+    private ResponseEntity<?> countByDepartmentStatus() {
+        Long countByDepartmentStatus = departmentService.countByDepartmentStatus();
+        return ResponseEntity.ok(countByDepartmentStatus);
     }
 }

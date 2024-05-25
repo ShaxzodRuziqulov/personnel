@@ -20,8 +20,11 @@ import java.util.List;
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department,Long> {
     List<Department> findByBranchId(Long id);
-    @Transactional
+    List<Department> findByStatusOrderByName(CommonStatus status);
+    @Query("select count(d) from Department d where d.status=:status")
+    Long countActiveDepartment(@Param("status") CommonStatus status);
     @Modifying
     @Query("update Department a set a.status = :commonStatus where a.id = :id")
     void updateStatus(@Param("id") Long id, @Param("commonStatus") CommonStatus commonStatus);
+
 }

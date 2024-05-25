@@ -10,6 +10,7 @@ import com.example.kadr.entity.Structure;
 import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.example.kadr.service.dto.StructureBranchList;
 import com.example.kadr.service.dto.StructureDTO;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public interface StructureService {
 
     Structure findById(Long id);
 
+    @Transactional
     void delete(Long id);
 
     List<StructureDTO> findAllByParentIsNull();

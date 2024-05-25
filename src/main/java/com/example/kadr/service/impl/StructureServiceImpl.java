@@ -87,7 +87,7 @@ public class StructureServiceImpl implements StructureService {
     }
 
     public void delete(Long id) {
-        log.debug("Request to delete Branch : {}", id);
+        log.debug("Request to deleteDepartment Branch : {}", id);
         structureRepository.updateStatus(id, CommonStatus.DELETED);
     }
 

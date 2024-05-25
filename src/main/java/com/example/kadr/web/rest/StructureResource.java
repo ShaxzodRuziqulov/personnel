@@ -61,7 +61,7 @@ public class StructureResource {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        log.debug("REST request to delete Branch : {}", id);
+        log.debug("REST request to deleteDepartment Branch : {}", id);
         structureService.delete(id);
         return ResponseEntity.ok("o'chirildi");
     }

@@ -74,7 +74,7 @@ public class BranchResource {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        log.debug("REST request to delete Branch : {}", id);
+        log.debug("REST request to deleteDepartment Branch : {}", id);
         branchService.delete(id);
         return ResponseEntity.ok("o'chirildi");
     }
@@ -85,17 +85,17 @@ public class BranchResource {
         return ResponseEntity.ok(branchDTOS);
     }
 
-    @GetMapping("/by-statusActive")
+    @GetMapping("/by-status/Active")
     public ResponseEntity<?> findByStatusActive() {
         List<BranchDTO> branchDTOS = branchService.findByStatusActive();
         return ResponseEntity.ok(branchDTOS);
     }
-    @GetMapping("/by-statusInActive")
+    @GetMapping("/by-status/InActive")
     public ResponseEntity<?> findByStatusInActive() {
         List<BranchDTO> branchDTOS = branchService.findByStatusInActive();
         return ResponseEntity.ok(branchDTOS);
     }
-    @GetMapping("/by-statusActive/count")
+    @GetMapping("/by-status/active/count")
     public ResponseEntity<?> findByStatusInActiveCount() {
         Long branchDTOS = branchService.countBranchesByStatus();
         return ResponseEntity.ok(branchDTOS);

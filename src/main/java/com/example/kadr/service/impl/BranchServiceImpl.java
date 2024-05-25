@@ -14,6 +14,7 @@ import com.example.kadr.service.StructureService;
 import com.example.kadr.service.dto.BranchDTO;
 import com.example.kadr.service.dto.StructureBranchList;
 import com.example.kadr.service.mapper.BranchMapper;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -65,11 +66,11 @@ public class BranchServiceImpl implements BranchService {
     }
 
     //    @Override
-//    public void delete(Long id) {
+//    public void deleteDepartment(Long id) {
 //        Branch branch = branchRepository.getReferenceById(id);
-//        branchRepository.delete(branch);
+//        branchRepository.deleteDepartment(branch);
 //    }
-
+    @Transactional
     public void delete(Long id) {
         branchRepository.updateStatus(id, CommonStatus.DELETED);
     }
@@ -109,6 +110,6 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public Long countBranchesByStatus() {
-       return branchRepository.countActiveBranches(CommonStatus.ACTIVE);
+       return branchRepository.countStatusBranches(CommonStatus.ACTIVE);
     }
 }

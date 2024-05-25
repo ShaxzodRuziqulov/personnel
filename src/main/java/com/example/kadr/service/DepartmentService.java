@@ -18,10 +18,14 @@ public interface DepartmentService {
     String update(DepartmentDTO departmentDTO);
 
     List<DepartmentDTO> all();
-
-    void delete(Long id);
+    void deleteDepartment(Long id);
+    void activeDepartment(Long id);
+    void inActiveDepartment(Long id);
 
     Department findById(Long id);
     List<DepartmentDTO> findDepartmentByBranchId(Long id);
     BranchDepartmentList findAllBranchAndDepartmentByBranchId(Long branchId);
+    List<DepartmentDTO> findByStatusActive();
+    public List<DepartmentDTO> findByStatusInActive();
+    Long countByDepartmentStatus();
 }

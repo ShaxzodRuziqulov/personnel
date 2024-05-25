@@ -9,6 +9,7 @@ package com.example.kadr.service;
 import com.example.kadr.entity.Branch;
 import com.example.kadr.service.dto.BranchDTO;
 import com.example.kadr.service.dto.StructureBranchList;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
