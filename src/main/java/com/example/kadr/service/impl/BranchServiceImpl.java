@@ -32,7 +32,7 @@ public class BranchServiceImpl implements BranchService {
             BranchRepository branchRepository,
             BranchMapper branchMapper,
             StructureService structureService
-            ) {
+    ) {
         this.branchRepository = branchRepository;
         this.branchMapper = branchMapper;
         this.structureService = structureService;
@@ -42,6 +42,13 @@ public class BranchServiceImpl implements BranchService {
     @Override
     public String create(BranchDTO branchDTO) {
         try {
+            if (branchDTO.getSortOrder() == null) {
+                if (branchDTO.getParentId() == null) {
+                    branchDTO.setSortOrder(branchRepository.getMaxIdByParentId(branchDTO.getRegionId()) + 3);
+                } else {
+                    branchDTO.setSortOrder(branchRepository.getMaxIdByParentIdIsNull(branchDTO.getRegionId()) + 3);
+                }
+            }
             branchRepository.save(branchMapper.toEntity(branchDTO));
             return "Muvafiqiyatli saqlandi";
         } catch (Exception e) {
@@ -94,15 +101,18 @@ public class BranchServiceImpl implements BranchService {
         structureBranchList.setBranchList(findBranchByStructureId(structureId));
         return structureBranchList;
     }
-    public List<BranchDTO> findByRegionId(Long id){
+
+    public List<BranchDTO> findByRegionId(Long id) {
         return branchMapper.toDTOS(branchRepository.findByRegionId(id));
     }
-    public List<BranchDTO> findByStatusActive(){
+
+    public List<BranchDTO> findByStatusActive() {
         return branchMapper
                 .toDTOS(branchRepository
                         .findByStatusOrderByName(CommonStatus.ACTIVE));
     }
-    public List<BranchDTO> findByStatusInActive(){
+
+    public List<BranchDTO> findByStatusInActive() {
         return branchMapper
                 .toDTOS(branchRepository
                         .findByStatusOrderByName(CommonStatus.INACTIVE));
@@ -110,6 +120,6 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public Long countBranchesByStatus() {
-       return branchRepository.countStatusBranches(CommonStatus.ACTIVE);
+        return branchRepository.countStatusBranches(CommonStatus.ACTIVE);
     }
 }

@@ -48,4 +48,7 @@ public interface StructureRepository extends JpaRepository<Structure, Long> {
     @Modifying
     @Query("update Structure a set a.status = :commonStatus where a.id = :id")
     void updateStatus(@Param("id") Long id, @Param("commonStatus") CommonStatus commonStatus);
+    @Query("select coalesce(max (b.sortOrder),0) from Structure b")
+    Long getMaxSortOrder();
+
 }

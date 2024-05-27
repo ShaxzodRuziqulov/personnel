@@ -33,6 +33,7 @@ public class JobMapper {
         for (Job job : jobs) {
             JobDTO jobDTO = new JobDTO();
             jobDTO.setId(job.getId());
+            jobDTO.setSortOrder(job.getSortOrder());
             jobDTO.setName(job.getName());
             jobDTO.setDepartmentId(job.getDepartment() != null ? job.getDepartment().getId() : null);
             jobDTO.setPositionId(job.getPosition() != null ? job.getPosition().getId() : null);
@@ -44,6 +45,7 @@ public class JobMapper {
     public Job toEntity(JobDTO jobDTO) {
         Job job = new Job();
         job.setId(job.getId());
+        job.setSortOrder(job.getSortOrder());
         job.setName(jobDTO.getName());
         job.setDepartment(departmentRepository.findById(jobDTO.getDepartmentId()).orElseThrow(() -> new EntityNotFoundException("Department topilmadi")));
         job.setPosition(positionRepository.findById(jobDTO.getPositionId()).orElseThrow(() -> new EntityNotFoundException("Position topilmadi")));

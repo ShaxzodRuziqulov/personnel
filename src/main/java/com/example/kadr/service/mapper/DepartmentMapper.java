@@ -29,6 +29,7 @@ public class DepartmentMapper {
         for (Department department : departments) {
             DepartmentDTO departmentDto = new DepartmentDTO();
             departmentDto.setId(department.getId());
+            departmentDto.setSortOrder(department.getSortOrder());
             departmentDto.setName(department.getName());
             departmentDto.setBranchId(department.getBranch() != null ? department.getBranch().getId() : null);
             departmentDto.setStatus(String.valueOf(department.getStatus()));
@@ -39,7 +40,8 @@ public class DepartmentMapper {
 
     public Department toEntity(DepartmentDTO departmentDTO) {
         Department department = new Department();
-        department.setId(department.getId());
+        department.setId(departmentDTO.getId());
+        department.setSortOrder(department.getSortOrder());
         department.setName(departmentDTO.getName());
         department.setBranch(branchRepository.findById(departmentDTO.getBranchId()).orElseThrow(() -> new EntityNotFoundException("branch topilmadi")));
         department.setStatus(CommonStatus.valueOf(departmentDTO.getStatus()));

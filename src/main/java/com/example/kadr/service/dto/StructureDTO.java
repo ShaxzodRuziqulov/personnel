@@ -7,6 +7,9 @@
 package com.example.kadr.service.dto;
 
 
+import lombok.Getter;
+
+@Getter
 public class StructureDTO {
     private Long id;
     private String name;
@@ -15,44 +18,20 @@ public class StructureDTO {
     private String status;
     private String parentName;
 
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public Long getSortOrder() {
-        return sortOrder;
-    }
-
     public void setSortOrder(Long sortOrder) {
         this.sortOrder = sortOrder;
     }
 
-    public Long getParentId() {
-        return parentId;
-    }
-
     public void setParentId(Long parentId) {
         this.parentId = parentId;
-    }
-
-    public String getParentName() {
-        return parentName;
-    }
-
-    public String getStatus() {
-        return status;
     }
 
     public void setStatus(String status) {

@@ -91,8 +91,8 @@ public class StructureResource {
     }
 
     @GetMapping("/all-list")
-    public ResponseEntity<?> findAllList() {
-        List<StructureDTO> findAllList = structureService.findAllList();
+    public ResponseEntity<?> findAllListActive() {
+        List<StructureDTO> findAllList = structureService.findAllListActive();
         return ResponseEntity.ok(findAllList);
     }
 

@@ -16,6 +16,7 @@ public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long sortOrder;
     private String name;
     @Enumerated(EnumType.STRING)
     private CommonStatus status;

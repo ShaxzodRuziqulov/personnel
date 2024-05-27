@@ -35,4 +35,10 @@ public interface BranchRepository extends JpaRepository<Branch, Long> {
     @Query("update Branch a set a.status = :commonStatus where a.id = :id")
     void updateStatus(@Param("id") Long id, @Param("commonStatus") CommonStatus commonStatus);
 
+    @Query("select coalesce(max (b.sortOrder),0 ) from Branch b where b.parent.id=:parentId")
+    Long getMaxIdByParentId(Long parentId);
+
+    @Query("select coalesce(max (b.sortOrder), 0) from Branch b where b.parent.id is null")
+    Long getMaxIdByParentIdIsNull(Long parentId);
+
 }

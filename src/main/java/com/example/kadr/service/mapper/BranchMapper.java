@@ -35,6 +35,7 @@ public class BranchMapper {
     public Branch toEntity(BranchDTO branchDTO) {
         Branch branch = new Branch();
         branch.setId(branchDTO.getId());
+        branch.setSortOrder(branchDTO.getSortOrder());
         branch.setName(branchDTO.getName());
         branch.setStructure(structureRepository.findById(branchDTO.getStructureId()).orElseThrow(() -> new EntityNotFoundException("Structura topilmadi")));
         branch.setRegion(regionRepository.findById(branchDTO.getRegionId()).orElseThrow(() -> new EntityNotFoundException("region id topilmadi")));
@@ -47,6 +48,7 @@ public class BranchMapper {
     public BranchDTO toDTO(Branch branch) {
         BranchDTO branchDTO = new BranchDTO();
         branchDTO.setId(branch.getId());
+        branchDTO.setSortOrder(branch.getSortOrder());
         branchDTO.setName(branch.getName());
         branchDTO.setStructureId(branch.getStructure().getId());
         branchDTO.setRegionId(branch.getRegion().getId());
@@ -61,6 +63,7 @@ public class BranchMapper {
         for (Branch branch : branches) {
             BranchDTO branchDTO = new BranchDTO();
             branchDTO.setId(branch.getId());
+            branchDTO.setSortOrder(branch.getSortOrder());
             branchDTO.setName(branch.getName());
             branchDTO.setParentId(branch.getId() != null ? branch.getParent().getId() : null);
             branchDTO.setParentName(branch.getParent() != null ? branch.getParent().getName() : null);

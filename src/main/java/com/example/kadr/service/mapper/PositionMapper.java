@@ -20,6 +20,7 @@ public class PositionMapper {
     public Position toEntity(PositionDTO positionDTO) {
         Position position = new Position();
         position.setId(positionDTO.getId());
+        position.setSortOrder(positionDTO.getSortOrder());
         position.setName(positionDTO.getName());
         position.setStatus(CommonStatus.valueOf(positionDTO.getStatus()));
         return position;
@@ -29,6 +30,7 @@ public class PositionMapper {
         for (Position position : positions) {
             PositionDTO positionDTO = new PositionDTO();
             positionDTO.setId(position.getId());
+            positionDTO.setSortOrder(position.getSortOrder());
             positionDTO.setName(position.getName());
             positionDTO.setStatus(String.valueOf(position.getStatus()));
             positionDTOS.add(positionDTO);

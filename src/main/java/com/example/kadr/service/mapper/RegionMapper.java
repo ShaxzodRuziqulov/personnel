@@ -19,6 +19,7 @@ public class RegionMapper {
     public Region toEntity(RegionDTO regionDTO) {
         Region region = new Region();
         region.setId(regionDTO.getId());
+        region.setSortOrder(regionDTO.getSortOrder());
         region.setName(regionDTO.getName());
         region.setStatus(CommonStatus.valueOf(regionDTO.getStatus()));
         return region;
@@ -30,6 +31,7 @@ public class RegionMapper {
                 regions) {
             RegionDTO regionDTO = new RegionDTO();
             regionDTO.setId(region.getId());
+            regionDTO.setSortOrder(region.getSortOrder());
             regionDTO.setName(region.getName());
             regionDTO.setStatus(String.valueOf(region.getStatus()));
             regionDTOList.add(regionDTO);

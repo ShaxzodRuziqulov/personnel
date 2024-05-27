@@ -16,6 +16,7 @@ public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long sortOrder;
     private String name;
     @ManyToOne
     private Branch branch;

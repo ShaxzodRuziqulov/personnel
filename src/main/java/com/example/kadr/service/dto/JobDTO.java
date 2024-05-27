@@ -7,9 +7,10 @@
 package com.example.kadr.service.dto;
 
 import lombok.Data;
-
+@Data
 public class JobDTO {
     private Long id;
+    private Long sortOrder;
     private String name;
     private Long departmentId;
     private Long positionId;

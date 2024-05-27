@@ -6,8 +6,12 @@
  */
 package com.example.kadr.service.dto;
 
+import lombok.Data;
+
+@Data
 public class BranchDTO {
     private Long id;
+    private Long sortOrder;
     private String name;
     private Long structureId;
     private Long parentId;

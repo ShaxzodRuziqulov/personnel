@@ -34,6 +34,9 @@ public class StructureServiceImpl implements StructureService {
 
     public String create(StructureDTO structureDTO) {
         try {
+            if (structureDTO.getSortOrder() == null) {
+                structureDTO.setSortOrder(structureRepository.getMaxSortOrder() + 3);
+            }
             structureRepository.save(structureMapper.toEntity(structureDTO));
             return "Muvaffaqiyatli saqlandi";
         } catch (Exception e) {
@@ -109,7 +112,7 @@ public class StructureServiceImpl implements StructureService {
         return structureMapper.toDTOS(structureRepository.findAllByParentIdOrderBySortOrderAsc(parentId));
     }
 
-    public List<StructureDTO> findAllList() {
+    public List<StructureDTO> findAllListActive() {
         return structureMapper.toDTOS
                 (structureRepository.findAllByStatusOrderBySortOrderAsc
                 (CommonStatus.ACTIVE));

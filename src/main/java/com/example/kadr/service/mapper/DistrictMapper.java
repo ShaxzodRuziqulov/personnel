@@ -22,6 +22,7 @@ public class DistrictMapper {
         for (District district : districts) {
             DistrictDTO districtDTO = new DistrictDTO();
             districtDTO.setId(district.getId());
+            districtDTO.setSortOrder(district.getSortOrder());
             districtDTO.setName(district.getName());
             districtDTO.setStatus(String.valueOf(district.getStatus()));
             districtList.add(districtDTO);
@@ -32,6 +33,7 @@ public class DistrictMapper {
     public District toEntity(DistrictDTO districtDTO) {
         District district = new District();
         district.setId(districtDTO.getId());
+        district.setSortOrder(districtDTO.getSortOrder());
         district.setName(districtDTO.getName());
         district.setStatus(CommonStatus.valueOf(districtDTO.getStatus()));
         return district;

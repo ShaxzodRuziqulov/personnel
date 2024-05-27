@@ -8,12 +8,15 @@ package com.example.kadr.entity;
 
 import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
 public class Region {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Long sortOrder;
     private String name;
     @Enumerated(EnumType.STRING)
     private CommonStatus status;
