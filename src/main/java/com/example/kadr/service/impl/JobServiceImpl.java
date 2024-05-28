@@ -14,6 +14,7 @@ import com.example.kadr.service.JobService;
 import com.example.kadr.service.dto.DepartmentJobList;
 import com.example.kadr.service.dto.JobDTO;
 import com.example.kadr.service.mapper.JobMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +34,9 @@ public class JobServiceImpl implements JobService {
     @Override
     public String create(JobDTO jobDTO) {
         try {
+            if (jobDTO.getStatus() == null) {
+                jobDTO.setStatus(String.valueOf(CommonStatus.ACTIVE));
+            }
             jobRepository.save(jobMapper.toEntity(jobDTO));
             return "Muvaffaqiyatli saqlandi";
         } catch (Exception e) {
@@ -58,8 +62,21 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         jobRepository.updateStatus(id, CommonStatus.DELETED);
+    }
+
+    public List<JobDTO> findByStatusInactive() {
+        return jobMapper.toDTOS(
+                jobRepository.findByStatusOrderByName(
+                        CommonStatus.INACTIVE));
+    }
+
+    public List<JobDTO> findByStatusActive() {
+        return jobMapper.toDTOS(
+                jobRepository.findByStatusOrderByName(
+                        CommonStatus.ACTIVE));
     }
 
     public Job findById(Long id) {
@@ -78,5 +95,35 @@ public class JobServiceImpl implements JobService {
         return departmentJobList;
     }
 
+    public Long findByPositionIdOrderById(Long jobId) {
+        return jobRepository.findByPositionIdOrderById(jobId);
+    }
 
+    public List<JobDTO> findBySortOrderGreaterThan(Long sortOrder) {
+        return jobMapper.toDTOS(jobRepository.findBySortOrderGreaterThan(sortOrder));
+    }
+
+    public List<JobDTO> findByName(String name) {
+        return jobMapper.toDTOS(jobRepository.findByName(name));
+    }
+
+    public List<JobDTO> findByPositionId(Long positionId) {
+        return jobMapper.toDTOS(jobRepository.findByPositionId(positionId));
+    }
+
+    public List<JobDTO> findByDepartmentIdAndStatus(Long departmentId) {
+        return jobMapper.toDTOS(jobRepository.findByDepartmentIdAndStatus(departmentId, CommonStatus.ACTIVE));
+    }
+
+    public List<JobDTO> findByPositionIdAndSortOrderGreaterThan(Long positionId, Long sortOrder) {
+        return jobMapper.toDTOS(jobRepository.findByPositionIdAndSortOrderGreaterThan(positionId, sortOrder));
+    }
+
+    public List<JobDTO> findAllOrderBySortOrderAsc() {
+        return jobMapper.toDTOS(jobRepository.findAllOrderBySortOrderAsc());
+    }
+
+    public List<JobDTO> findByNameAndDepartmentId(String name, Long departmentId) {
+        return jobMapper.toDTOS(jobRepository.findByNameAndDepartmentId(name, departmentId));
+    }
 }

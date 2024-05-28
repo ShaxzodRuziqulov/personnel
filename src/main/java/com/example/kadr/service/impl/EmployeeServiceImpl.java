@@ -9,6 +9,7 @@ package com.example.kadr.service.impl;
 import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.example.kadr.repository.EmployeeRepository;
 import com.example.kadr.entity.Employee;
+import com.example.kadr.repository.JobRepository;
 import com.example.kadr.service.EmployeeService;
 import com.example.kadr.service.dto.EmployeeDTO;
 import com.example.kadr.service.mapper.EmployeeMapper;
@@ -24,12 +25,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
     private final EntityManager entityManager;
+    private final JobRepository jobRepository;
 
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, EntityManager entityManager) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, EntityManager entityManager, JobRepository jobRepository) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
         this.entityManager = entityManager;
+        this.jobRepository = jobRepository;
     }
 
     @Override

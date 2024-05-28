@@ -24,6 +24,7 @@ public interface DepartmentService {
 
     Department findById(Long id);
     List<DepartmentDTO> findDepartmentByBranchId(Long id);
+    List<DepartmentDTO> findAllDepartmentByBranchIdList(Long id);
     BranchDepartmentList findAllBranchAndDepartmentByBranchId(Long branchId);
     List<DepartmentDTO> findByStatusActive();
     public List<DepartmentDTO> findByStatusInActive();

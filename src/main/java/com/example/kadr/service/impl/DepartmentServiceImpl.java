@@ -88,6 +88,10 @@ public class DepartmentServiceImpl implements DepartmentService {
         List<Department> department = departmentRepository.findByBranchId(id);
         return departmentMapper.toDTOS(department);
     }
+    public List<DepartmentDTO> findAllDepartmentByBranchIdList(Long id) {
+        List<Department> department = departmentRepository.findByBranchIdOrderByIdAsc(id);
+        return departmentMapper.toDTOS(department);
+    }
 
     public BranchDepartmentList findAllBranchAndDepartmentByBranchId(Long branchId) {
         BranchDepartmentList branchDepartmentList = new BranchDepartmentList();

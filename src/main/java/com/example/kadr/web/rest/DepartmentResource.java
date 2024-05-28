@@ -53,6 +53,11 @@ public class DepartmentResource {
         List<DepartmentDTO> department = departmentService.findDepartmentByBranchId(branchId);
         return ResponseEntity.ok(department);
     }
+    @GetMapping("/list -by/{branchId}")
+    public ResponseEntity<?> findAllDepartmentBranchIdList(@PathVariable Long branchId) {
+        List<DepartmentDTO> department = departmentService.findAllDepartmentByBranchIdList(branchId);
+        return ResponseEntity.ok(department);
+    }
 
     @GetMapping("/by-branch/list/{branchId}")
     public ResponseEntity<?> findAllBranchAndDepartment(@PathVariable Long branchId) {
