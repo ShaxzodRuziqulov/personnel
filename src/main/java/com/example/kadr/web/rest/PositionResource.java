@@ -7,6 +7,7 @@
 package com.example.kadr.web.rest;
 
 import com.example.kadr.entity.Position;
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.example.kadr.service.PositionService;
 import com.example.kadr.service.dto.PositionDTO;
 import org.springframework.http.ResponseEntity;
@@ -52,4 +53,46 @@ public class PositionResource {
         Position positionDTOS = positionService.findById(id);
         return ResponseEntity.ok(positionDTOS);
     }
+    @GetMapping("/by-status/active")
+    public ResponseEntity<?> findActivePositionsOrderBySortOrder(){
+        List<PositionDTO> activePosition = positionService.findActivePositionsOrderBySortOrder();
+        return ResponseEntity.ok(activePosition);
+    }
+    @GetMapping("/by-sortOrder")
+    public ResponseEntity<?> findByPositionsOrderBySortOrder(){
+        List<PositionDTO> findSortOrder= positionService.findByPositionsOrderBySortOrder();
+        return ResponseEntity.ok(findSortOrder);
+    }
+    @GetMapping("/by-name/{name}")
+    public ResponseEntity<?> findByName (@PathVariable String name){
+        List<PositionDTO> findByName = positionService.findByName(name);
+        return ResponseEntity.ok(findByName);
+    }
+    @GetMapping("/by-statuses/{statuses}")
+    public ResponseEntity<?> findPositionsByStatuses(@PathVariable List<CommonStatus> statuses){
+        List<PositionDTO> findPositionsByStatuses= positionService.findPositionsByStatuses(statuses);
+        return ResponseEntity.ok(findPositionsByStatuses);
+    }
+    @GetMapping("/by-positionName/{name}")
+    public ResponseEntity<?> findPositionsByNameContaining(@PathVariable String name){
+        List<PositionDTO> findPositionsByNameContaining = positionService.findPositionsByNameContaining(name);
+        return ResponseEntity.ok(findPositionsByNameContaining);
+    }
+    @GetMapping("/by-positionBetween/{start}/{end}")
+    public ResponseEntity<?> findPositionsBySortOrderBetween(@PathVariable Long start,@PathVariable Long end){
+        List<PositionDTO> findPositionsBySortOrderBetween = positionService.findPositionsBySortOrderBetween(start,end);
+        return ResponseEntity.ok(findPositionsBySortOrderBetween);
+    }
+    @GetMapping("/byNameAndStatus/{name}/{status}")
+    public ResponseEntity<?> findPositionsByNameAndStatus(@PathVariable String name,@PathVariable CommonStatus status){
+        List<PositionDTO> findPositionsByNameAndStatus =positionService.findPositionsByNameAndStatus(name,status);
+        return ResponseEntity.ok(findPositionsByNameAndStatus);
+    }
+    @GetMapping("/maxSortOrders")
+    public ResponseEntity<?> findPositionsWithMaxSortOrders(){
+        List<PositionDTO> findPositionsWithMaxSortOrders = positionService.findPositionsWithMaxSortOrders();
+        return ResponseEntity.ok(findPositionsWithMaxSortOrders);
+    }
+
+
 }

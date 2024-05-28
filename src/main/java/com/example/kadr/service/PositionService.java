@@ -7,6 +7,7 @@
 package com.example.kadr.service;
 
 import com.example.kadr.entity.Position;
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.example.kadr.service.dto.PositionDTO;
 import jakarta.transaction.Transactional;
 
@@ -18,7 +19,25 @@ public interface PositionService {
     String update(PositionDTO positionDTO);
 
     List<PositionDTO> all();
+
     Position findById(Long id);
+
     @Transactional
     void delete(Long id);
+
+    List<PositionDTO> findActivePositionsOrderBySortOrder();
+
+     List<PositionDTO> findByPositionsOrderBySortOrder();
+
+     List<PositionDTO> findByName(String name);
+
+     List<PositionDTO> findPositionsByStatuses(List<CommonStatus> statuses);
+
+     List<PositionDTO> findPositionsByNameContaining(String name);
+
+     List<PositionDTO> findPositionsBySortOrderBetween(Long start, Long end);
+
+     List<PositionDTO> findPositionsByNameAndStatus(String name, CommonStatus status);
+
+     List<PositionDTO> findPositionsWithMaxSortOrders();
 }
