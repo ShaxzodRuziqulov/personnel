@@ -6,11 +6,13 @@
  */
 package com.example.kadr.service.impl;
 
+import com.example.kadr.entity.Job;
 import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.example.kadr.repository.EmployeeRepository;
 import com.example.kadr.entity.Employee;
 import com.example.kadr.repository.JobRepository;
 import com.example.kadr.service.EmployeeService;
+import com.example.kadr.service.JobService;
 import com.example.kadr.service.dto.EmployeeDTO;
 import com.example.kadr.service.mapper.EmployeeMapper;
 import jakarta.persistence.EntityManager;
@@ -26,13 +28,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeMapper employeeMapper;
     private final EntityManager entityManager;
     private final JobRepository jobRepository;
+    private final JobService jobService;
 
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, EntityManager entityManager, JobRepository jobRepository) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, EntityManager entityManager, JobRepository jobRepository, JobService jobService) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
         this.entityManager = entityManager;
         this.jobRepository = jobRepository;
+        this.jobService = jobService;
     }
 
     @Override
@@ -81,4 +85,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         return null;
     }
 
+    public List<EmployeeDTO> findAllByStatus(CommonStatus status) {
+        return employeeMapper.toDTOs(employeeRepository.findAllByStatus(status));
+    }
+
+    public List<EmployeeDTO> findAllFreeEmployee(Long jobId) {
+        Job job = jobService.findById(jobId);
+        if (job != null) {
+            Long structureId = job.getDepartment().getBranch().getStructure().getId();
+            List<Employee> employees = employeeRepository.findAllFreeEmployee(structureId,CommonStatus.ACTIVE);
+            return employeeMapper.toDTOs(employees);
+        }
+        return null;
+    }
 }

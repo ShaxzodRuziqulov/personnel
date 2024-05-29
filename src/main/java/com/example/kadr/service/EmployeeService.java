@@ -7,6 +7,7 @@
 package com.example.kadr.service;
 
 import com.example.kadr.entity.Employee;
+import com.example.kadr.entity.enumitation.hr.CommonStatus;
 import com.example.kadr.service.dto.EmployeeDTO;
 import jakarta.transaction.Transactional;
 
@@ -19,5 +20,6 @@ public interface EmployeeService {
     @Transactional
     void delete(Long id);
     Employee findById(Long id);
-
+    List<EmployeeDTO> findAllByStatus(CommonStatus status);
+    List<EmployeeDTO> findAllFreeEmployee(Long jobId);
 }

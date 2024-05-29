@@ -126,4 +126,7 @@ public class JobServiceImpl implements JobService {
     public List<JobDTO> findByNameAndDepartmentId(String name, Long departmentId) {
         return jobMapper.toDTOS(jobRepository.findByNameAndDepartmentId(name, departmentId));
     }
+    public Job getOne(Long id) {
+        return jobRepository.findById(id).get();
+    }
 }

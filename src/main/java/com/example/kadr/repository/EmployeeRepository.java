@@ -15,10 +15,28 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public interface EmployeeRepository extends JpaRepository<Employee,Long> {
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Transactional
     @Modifying
     @Query("update Employee a set a.status = :commonStatus where a.id = :id")
     void updateStatus(@Param("id") Long id, @Param("commonStatus") CommonStatus commonStatus);
+
+    @Query("select e from Employee e " +
+            "left join e.job j " +
+            "left join j.department d " +
+            "left join d.branch s " +
+            "where e.status = :status")
+    List<Employee> findAllByStatus(@Param("status") CommonStatus status);
+
+    @Query(value = "select e from Employee e " +
+            "left join Job j on j.id = e.job.id " +
+            "left join Department d on d.id = j.department.id " +
+            "left join Branch b on b.id= d.branch.id " +
+            "where e.status =:status and (:structureId is null or b.structure.id = :structureId)",
+            nativeQuery = false)
+    List<Employee> findAllFreeEmployee(@Param("structureId") Long structureId, @Param("status") CommonStatus status);
+
 }

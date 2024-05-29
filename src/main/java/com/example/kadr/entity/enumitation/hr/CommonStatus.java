@@ -10,4 +10,5 @@ public enum CommonStatus {
     ACTIVE,
     INACTIVE,
     DELETED,
+    FREE
 }
