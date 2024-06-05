@@ -36,7 +36,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "left join Department d on d.id = j.department.id " +
             "left join Branch b on b.id= d.branch.id " +
             "where e.status =:status and (:structureId is null or b.structure.id = :structureId)",
-            nativeQuery = false)
+            nativeQuery = true)
     List<Employee> findAllFreeEmployee(@Param("structureId") Long structureId, @Param("status") CommonStatus status);
 
 }

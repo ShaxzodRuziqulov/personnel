@@ -32,17 +32,14 @@ public class StructureServiceImpl implements StructureService {
     }
 
 
-    public String create(StructureDTO structureDTO) {
-        try {
-            if (structureDTO.getSortOrder() == null) {
-                structureDTO.setSortOrder(structureRepository.getMaxSortOrder() + 3);
-            }
-            structureRepository.save(structureMapper.toEntity(structureDTO));
-            return "Muvaffaqiyatli saqlandi";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Xatolik";
+    public StructureDTO create(StructureDTO structureDTO) {
+        if (structureDTO.getSortOrder() == null) {
+            Long maxSortOrder = structureRepository.getMaxSortOrder();
+            structureDTO.setSortOrder(maxSortOrder != null ? maxSortOrder + 1 : 1);
         }
+        Structure structure = structureMapper.toEntity(structureDTO);
+        structure = structureRepository.save(structure);
+        return structureMapper.toDTO(structure);
     }
 
 
@@ -69,16 +66,10 @@ public class StructureServiceImpl implements StructureService {
 //
 //    }
 
-    public String updateNew(StructureDTO structureDTO) {
-        try {
-            structureRepository.save(structureMapper.toEntity(structureDTO));
-            return "Muvaffaqiyatli uzgartirildi";
-        } catch (
-                Exception e) {
-            e.printStackTrace();
-            return "Xatolik";
-        }
-
+    public StructureDTO update(StructureDTO structureDTO) {
+        Structure structure = structureMapper.toEntity(structureDTO);
+        structure = structureRepository.save(structure);
+        return structureMapper.toDTO(structure);
     }
 
     public List<StructureDTO> all() {
@@ -115,7 +106,7 @@ public class StructureServiceImpl implements StructureService {
     public List<StructureDTO> findAllListActive() {
         return structureMapper.toDTOS
                 (structureRepository.findAllByStatusOrderBySortOrderAsc
-                (CommonStatus.ACTIVE));
+                        (CommonStatus.ACTIVE));
     }
 
 //    public Page<StructureDTO> findAllPaging(

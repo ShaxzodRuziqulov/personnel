@@ -14,19 +14,30 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class StructureMapper {
 
-    public StructureDTO toDto(Structure structure) {
+    public StructureDTO toDTO(Structure structure) {
+        if (structure == null) {
+            return null;
+        }
         StructureDTO structureDTO = new StructureDTO();
         structureDTO.setId(structure.getId());
         structureDTO.setName(structure.getName());
         structureDTO.setSortOrder(structure.getSortOrder());
-        structureDTO.setParentId(structure.getParent() != null ? structure.getParent().getId() : null);
-        structureDTO.setParentName(structure.getParent() != null ? structure.getParent().getName() : null);
+
+        Structure parent = structure.getParent();
+        if (parent != null) {
+            structureDTO.setParentId(parent.getId());
+            structureDTO.setParentName(parent.getName());
+        }
+
+        structureDTO.setStatus(String.valueOf(structure.getStatus()));
         return structureDTO;
     }
+
 
     public Structure toEntity(StructureDTO structureDTO) {
         Structure structure = new Structure();
@@ -39,19 +50,9 @@ public class StructureMapper {
     }
 
     public List<StructureDTO> toDTOS(List<Structure> structures) {
-        List<StructureDTO> resStructureDTOS = new ArrayList<>();
-        for (Structure structure : structures) {
-            StructureDTO structureDTO = new StructureDTO();
-            structureDTO.setId(structure.getId());
-            structureDTO.setName(structure.getName());
-            structureDTO.setSortOrder(structure.getSortOrder());
-            structureDTO.setParentId(structure.getParent() != null ? structure.getParent().getId() : null);
-            structureDTO.setParentName(structure.getParent() != null ? structure.getParent().getName() : null);
-            structureDTO.setStatus(String.valueOf(structure.getStatus()));
-            resStructureDTOS.add(structureDTO);
-        }
-
-        return resStructureDTOS;
+        return structures.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 
     public Structure setParentId(Long parentId) {

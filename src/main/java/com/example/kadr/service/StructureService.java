@@ -13,11 +13,11 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 
 public interface StructureService {
-    String create(StructureDTO structureDTO);
+    StructureDTO create(StructureDTO structureDTO);
 
 //    String update(StructureDTO structureDTO);
 
-    String updateNew(StructureDTO structureDTO);
+    StructureDTO update(StructureDTO structureDTO);
 
     List<StructureDTO> all();
 
