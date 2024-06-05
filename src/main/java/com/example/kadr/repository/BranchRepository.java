@@ -19,6 +19,7 @@ import java.util.List;
 
 @Repository
 public interface BranchRepository extends JpaRepository<Branch, Long> {
+    List<Branch> findAllByOrderBySortOrderDesc();
 
     List<Branch> findByParentId(Long parentId);
 

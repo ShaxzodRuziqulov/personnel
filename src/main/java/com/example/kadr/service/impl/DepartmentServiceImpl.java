@@ -38,30 +38,23 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public String create(DepartmentDTO departmentDTO) {
-        try {
-            departmentRepository.save(departmentMapper.toEntity(departmentDTO));
-            return "Muvaffaqiyatli saqlandi";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Xatolik";
-        }
+    public DepartmentDTO create(DepartmentDTO departmentDTO) {
+
+        Department department = departmentMapper.toEntity(departmentDTO);
+        department = departmentRepository.save(department);
+        return departmentMapper.toDTO(department);
     }
 
     @Override
-    public String update(DepartmentDTO departmentDTO) {
-        try {
-            departmentRepository.save(departmentMapper.toEntity(departmentDTO));
-            return "Muvaffaqiyatli uzgartirildi";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Xatolik";
-        }
+    public DepartmentDTO update(DepartmentDTO departmentDTO) {
+        Department department = new Department();
+        department = departmentRepository.save(department);
+        return departmentMapper.toDTO(department);
     }
 
     @Override
-    public List<DepartmentDTO> all() {
-        return departmentMapper.toDTOS(departmentRepository.findAll());
+    public List<DepartmentDTO> findAllByOrderBySortOrderDesc() {
+        return departmentMapper.toDTOS(departmentRepository.findAllByOrderBySortOrderDesc());
     }
 
     public Department findById(Long id) {
@@ -88,6 +81,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         List<Department> department = departmentRepository.findByBranchId(id);
         return departmentMapper.toDTOS(department);
     }
+
     public List<DepartmentDTO> findAllDepartmentByBranchIdList(Long id) {
         List<Department> department = departmentRepository.findByBranchIdOrderByIdAsc(id);
         return departmentMapper.toDTOS(department);

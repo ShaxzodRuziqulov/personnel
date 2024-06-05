@@ -9,16 +9,15 @@ package com.example.kadr.service;
 import com.example.kadr.entity.Branch;
 import com.example.kadr.service.dto.BranchDTO;
 import com.example.kadr.service.dto.StructureBranchList;
-import jakarta.transaction.Transactional;
 
 import java.util.List;
 
 public interface BranchService {
-    String create(BranchDTO branchDTO);
+    BranchDTO create(BranchDTO branchDTO);
 
-    String update(BranchDTO branchDTO);
+    BranchDTO update(BranchDTO branchDTO);
 
-    List<BranchDTO> all();
+    List<BranchDTO> findAllByOrderBySortOrderDesc();
 
     void delete(Long id);
 

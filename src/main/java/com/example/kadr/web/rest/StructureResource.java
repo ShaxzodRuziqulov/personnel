@@ -9,6 +9,8 @@ package com.example.kadr.web.rest;
 import com.example.kadr.entity.Structure;
 import com.example.kadr.service.StructureService;
 import com.example.kadr.service.dto.StructureDTO;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,15 +42,21 @@ public class StructureResource {
 //        return ResponseEntity.ok(response);
 //    }
 
-    @PutMapping("structures/update")
-    public ResponseEntity<?> update(@RequestBody StructureDTO structureDTO) throws URISyntaxException {
-        if (structureDTO.getId() == null) {
-            return ResponseEntity.ok("Id topilmadi");
+    @PutMapping("structures/update/{id}")
+    public ResponseEntity<?> update(@RequestBody StructureDTO structureDTO,@PathVariable Long id){
+        if (structureDTO.getId() == null || !structureDTO.getId().equals(id)) {
+            return ResponseEntity.badRequest().body("Invalid ID");
         }
-        StructureDTO result = structureService.update(structureDTO);
-        return ResponseEntity
-                .ok()
-                .body(result);
+        try {
+            StructureDTO result = structureService.update(structureDTO);
+            return ResponseEntity
+                    .ok()
+                    .body(result);
+        }catch (EntityNotFoundException e){
+            return ResponseEntity.notFound().build();
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GetMapping("structures/all-list/by-sort-order")

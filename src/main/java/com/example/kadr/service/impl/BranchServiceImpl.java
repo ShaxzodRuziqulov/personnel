@@ -40,36 +40,28 @@ public class BranchServiceImpl implements BranchService {
 
 
     @Override
-    public String create(BranchDTO branchDTO) {
-        try {
-            if (branchDTO.getSortOrder() == null) {
-                if (branchDTO.getParentId() == null) {
-                    branchDTO.setSortOrder(branchRepository.getMaxIdByParentId(branchDTO.getRegionId()) + 3);
-                } else {
-                    branchDTO.setSortOrder(branchRepository.getMaxIdByParentIdIsNull(branchDTO.getRegionId()) + 3);
-                }
+    public BranchDTO create(BranchDTO branchDTO) {
+        if (branchDTO.getSortOrder() == null) {
+            if (branchDTO.getParentId() == null) {
+                branchDTO.setSortOrder(branchRepository.getMaxIdByParentId(branchDTO.getRegionId()) + 3);
+            } else {
+                branchDTO.setSortOrder(branchRepository.getMaxIdByParentIdIsNull(branchDTO.getRegionId()) + 3);
             }
-            branchRepository.save(branchMapper.toEntity(branchDTO));
-            return "Muvafiqiyatli saqlandi";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "xatolik";
         }
+        Branch branch = (branchMapper.toEntity(branchDTO));
+        branch = branchRepository.save(branch);
+        return branchMapper.toDTO(branch);
     }
 
     @Override
-    public String update(BranchDTO branchDTO) {
-        try {
-            branchRepository.save(branchMapper.toEntity(branchDTO));
-            return "Muvaffaqiyatli uzgartirildi";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Xatolik";
-        }
+    public BranchDTO update(BranchDTO branchDTO) {
+        Branch branch = new Branch();
+        branch =branchRepository.save(branch);
+        return branchMapper.toDTO(branch);
     }
 
-    public List<BranchDTO> all() {
-        return branchMapper.toDTOS(branchRepository.findAll());
+    public List<BranchDTO> findAllByOrderBySortOrderDesc() {
+        return branchMapper.toDTOS(branchRepository.findAllByOrderBySortOrderDesc());
     }
 
     //    @Override

@@ -20,6 +20,7 @@ import java.util.List;
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
     List<Department> findByBranchId(Long id);
+    List<Department> findAllByOrderBySortOrderDesc();
 
     List<Department> findByBranchIdOrderByIdAsc(Long branchId);
 

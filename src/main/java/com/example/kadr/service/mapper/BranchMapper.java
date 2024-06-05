@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class BranchMapper {
@@ -46,6 +47,9 @@ public class BranchMapper {
     }
 
     public BranchDTO toDTO(Branch branch) {
+        if (branch == null) {
+            return null;
+        }
         BranchDTO branchDTO = new BranchDTO();
         branchDTO.setId(branch.getId());
         branchDTO.setSortOrder(branch.getSortOrder());
@@ -53,29 +57,19 @@ public class BranchMapper {
         branchDTO.setStructureId(branch.getStructure().getId());
         branchDTO.setRegionId(branch.getRegion().getId());
         branchDTO.setDistrictId(branch.getDistrict().getId());
-        branchDTO.setParentId(branch.getParent().getId());
+        Branch parent = branch.getParent();
+        if (parent != null) {
+            branchDTO.setParentId(branch.getParent().getId());
+            branchDTO.setParentName(branch.getParent().getName());
+        }
         branchDTO.setStatus(branch.getStatus().toString());
         return branchDTO;
     }
 
     public List<BranchDTO> toDTOS(List<Branch> branches) {
-        List<BranchDTO> resBranchDTOS = new ArrayList<>();
-        for (Branch branch : branches) {
-            BranchDTO branchDTO = new BranchDTO();
-            branchDTO.setId(branch.getId());
-            branchDTO.setSortOrder(branch.getSortOrder());
-            branchDTO.setName(branch.getName());
-            branchDTO.setParentId(branch.getId() != null ? branch.getParent().getId() : null);
-            branchDTO.setParentName(branch.getParent() != null ? branch.getParent().getName() : null);
-            branchDTO.setParentName(branch.getParent().getName());
-            branchDTO.setStructureId(branch.getStructure().getId());
-            branchDTO.setRegionId(branch.getRegion().getId());
-            branchDTO.setDistrictId(branch.getDistrict().getId());
-            branchDTO.setStatus(String.valueOf(branch.getStatus()));
-            resBranchDTOS.add(branchDTO);
-        }
-
-        return resBranchDTOS;
+        return branches.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 
     public Branch setParentId(Long parentId) {

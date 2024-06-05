@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class DepartmentMapper {
     private final BranchRepository branchRepository;
@@ -25,17 +27,9 @@ public class DepartmentMapper {
     }
 
     public List<DepartmentDTO> toDTOS(List<Department> departments) {
-        List<DepartmentDTO> departmentDTOList = new ArrayList<>();
-        for (Department department : departments) {
-            DepartmentDTO departmentDto = new DepartmentDTO();
-            departmentDto.setId(department.getId());
-            departmentDto.setSortOrder(department.getSortOrder());
-            departmentDto.setName(department.getName());
-            departmentDto.setBranchId(department.getBranch() != null ? department.getBranch().getId() : null);
-            departmentDto.setStatus(String.valueOf(department.getStatus()));
-            departmentDTOList.add(departmentDto);
-        }
-        return departmentDTOList;
+        return departments.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 
     public Department toEntity(DepartmentDTO departmentDTO) {
@@ -46,5 +40,18 @@ public class DepartmentMapper {
         department.setBranch(branchRepository.findById(departmentDTO.getBranchId()).orElseThrow(() -> new EntityNotFoundException("branch topilmadi")));
         department.setStatus(CommonStatus.valueOf(departmentDTO.getStatus()));
         return department;
+    }
+
+    public DepartmentDTO toDTO(Department department) {
+        if (department == null) {
+            return null;
+        }
+        DepartmentDTO departmentDTO = new DepartmentDTO();
+        departmentDTO.setId(department.getId());
+        departmentDTO.setName(department.getName());
+        departmentDTO.setSortOrder(department.getSortOrder());
+        departmentDTO.setBranchId(department.getBranch().getId());
+        departmentDTO.setStatus(department.getStatus().toString());
+        return departmentDTO;
     }
 }

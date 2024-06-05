@@ -13,20 +13,29 @@ import com.example.kadr.service.dto.DepartmentDTO;
 import java.util.List;
 
 public interface DepartmentService {
-    String create(DepartmentDTO departmentDTO);
+    DepartmentDTO create(DepartmentDTO departmentDTO);
 
-    String update(DepartmentDTO departmentDTO);
+    DepartmentDTO update(DepartmentDTO departmentDTO);
 
-    List<DepartmentDTO> all();
+    List<DepartmentDTO> findAllByOrderBySortOrderDesc();
+
     void deleteDepartment(Long id);
+
     void activeDepartment(Long id);
+
     void inActiveDepartment(Long id);
 
     Department findById(Long id);
+
     List<DepartmentDTO> findDepartmentByBranchId(Long id);
+
     List<DepartmentDTO> findAllDepartmentByBranchIdList(Long id);
+
     BranchDepartmentList findAllBranchAndDepartmentByBranchId(Long branchId);
+
     List<DepartmentDTO> findByStatusActive();
+
     public List<DepartmentDTO> findByStatusInActive();
+
     Long countByDepartmentStatus();
 }
