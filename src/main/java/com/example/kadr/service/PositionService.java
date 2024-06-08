@@ -14,30 +14,29 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 
 public interface PositionService {
-    String create(PositionDTO positionDTO);
+    PositionDTO create(PositionDTO positionDTO);
 
-    String update(PositionDTO positionDTO);
+    PositionDTO update(PositionDTO positionDTO);
 
     List<PositionDTO> all();
 
     Position findById(Long id);
 
-    @Transactional
     void delete(Long id);
 
     List<PositionDTO> findActivePositionsOrderBySortOrder();
 
-     List<PositionDTO> findByPositionsOrderBySortOrder();
+    List<PositionDTO> findByPositionsOrderBySortOrder();
 
-     List<PositionDTO> findByName(String name);
+    List<PositionDTO> findByName(String name);
 
-     List<PositionDTO> findPositionsByStatuses(List<CommonStatus> statuses);
+    List<PositionDTO> findPositionsByStatuses(List<CommonStatus> statuses);
 
-     List<PositionDTO> findPositionsByNameContaining(String name);
+    List<PositionDTO> findPositionsByNameContaining(String name);
 
-     List<PositionDTO> findPositionsBySortOrderBetween(Long start, Long end);
+    List<PositionDTO> findPositionsBySortOrderBetween(Long start, Long end);
 
-     List<PositionDTO> findPositionsByNameAndStatus(String name, CommonStatus status);
+    List<PositionDTO> findPositionsByNameAndStatus(String name, CommonStatus status);
 
-     List<PositionDTO> findPositionsWithMaxSortOrders();
+    List<PositionDTO> findPositionsWithMaxSortOrders();
 }

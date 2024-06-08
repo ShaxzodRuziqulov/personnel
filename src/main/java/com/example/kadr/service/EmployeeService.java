@@ -14,12 +14,10 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 
 public interface EmployeeService {
-    String create(EmployeeDTO employeeDTO);
-    String update(EmployeeDTO employeeDTO);
+    EmployeeDTO create(EmployeeDTO employeeDTO);
+    EmployeeDTO update(EmployeeDTO employeeDTO);
     List<EmployeeDTO> all ();
-    @Transactional
     void delete(Long id);
     Employee findById(Long id);
     List<EmployeeDTO> findAllByStatus(CommonStatus status);
-    List<EmployeeDTO> findAllFreeEmployee(Long jobId);
 }

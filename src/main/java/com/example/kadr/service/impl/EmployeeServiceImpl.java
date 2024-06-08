@@ -18,6 +18,7 @@ import com.example.kadr.service.mapper.EmployeeMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.ParameterMode;
 import jakarta.persistence.StoredProcedureQuery;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,25 +41,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public String create(EmployeeDTO employeeDTO) {
-        try {
-            employeeRepository.save(employeeMapper.toEntity(employeeDTO));
-            return "Muvaffaqiyatli saqlandi";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Xatolik";
-        }
+    public EmployeeDTO create(EmployeeDTO employeeDTO) {
+        Employee employee = employeeMapper.toEntity(employeeDTO);
+        employee = employeeRepository.save(employee);
+        return employeeMapper.toDTO(employee);
     }
 
     @Override
-    public String update(EmployeeDTO employeeDTO) {
-        try {
-            employeeRepository.save(employeeMapper.toEntity(employeeDTO));
-            return "Malumotlar uzgartirildi";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Xatolik";
-        }
+    public EmployeeDTO update(EmployeeDTO employeeDTO) {
+        Employee employee = employeeMapper.toEntity(employeeDTO);
+        employee = employeeRepository.save(employee);
+        return employeeMapper.toDTO(employee);
     }
 
     @Override
@@ -67,6 +60,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         employeeRepository.updateStatus(id, CommonStatus.DELETED);
     }
@@ -89,13 +83,4 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeMapper.toDTOs(employeeRepository.findAllByStatus(status));
     }
 
-    public List<EmployeeDTO> findAllFreeEmployee(Long jobId) {
-        Job job = jobService.findById(jobId);
-        if (job != null) {
-            Long structureId = job.getDepartment().getBranch().getStructure().getId();
-            List<Employee> employees = employeeRepository.findAllFreeEmployee(structureId,CommonStatus.ACTIVE);
-            return employeeMapper.toDTOs(employees);
-        }
-        return null;
-    }
 }

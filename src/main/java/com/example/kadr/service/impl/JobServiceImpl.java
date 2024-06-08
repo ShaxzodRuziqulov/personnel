@@ -14,6 +14,7 @@ import com.example.kadr.service.JobService;
 import com.example.kadr.service.dto.DepartmentJobList;
 import com.example.kadr.service.dto.JobDTO;
 import com.example.kadr.service.mapper.JobMapper;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -32,28 +33,17 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public String create(JobDTO jobDTO) {
-        try {
-            if (jobDTO.getStatus() == null) {
-                jobDTO.setStatus(String.valueOf(CommonStatus.ACTIVE));
-            }
-            jobRepository.save(jobMapper.toEntity(jobDTO));
-            return "Muvaffaqiyatli saqlandi";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Xatolik";
-        }
+    public JobDTO create(JobDTO jobDTO) {
+        Job job = jobMapper.toEntity(jobDTO);
+        job = jobRepository.save(job);
+        return jobMapper.toDTO(job);
     }
 
     @Override
-    public String update(JobDTO jobDTO) {
-        try {
-            jobRepository.save(jobMapper.toEntity(jobDTO));
-            return "Muvaffaqiyatli uzgartirildi";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Xatolik";
-        }
+    public JobDTO update(JobDTO jobDTO) {
+        Job job = jobMapper.toEntity(jobDTO);
+        job = jobRepository.save(job);
+        return jobMapper.toDTO(job);
     }
 
     @Override
@@ -126,6 +116,7 @@ public class JobServiceImpl implements JobService {
     public List<JobDTO> findByNameAndDepartmentId(String name, Long departmentId) {
         return jobMapper.toDTOS(jobRepository.findByNameAndDepartmentId(name, departmentId));
     }
+
     public Job getOne(Long id) {
         return jobRepository.findById(id).get();
     }

@@ -62,7 +62,7 @@ public class BranchMapper {
             branchDTO.setParentId(branch.getParent().getId());
             branchDTO.setParentName(branch.getParent().getName());
         }
-        branchDTO.setStatus(branch.getStatus().toString());
+        branchDTO.setStatus(String.valueOf(branch.getStatus()));
         return branchDTO;
     }
 

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class EmployeeMapper {
@@ -26,21 +27,7 @@ public class EmployeeMapper {
     }
 
     public List<EmployeeDTO> toDTOs(List<Employee> employees) {
-        List<EmployeeDTO> employeeDTOS = new ArrayList<>();
-        for (Employee employee : employees) {
-            EmployeeDTO employeeDTO = new EmployeeDTO();
-            employeeDTO.setId(employee.getId());
-            employeeDTO.setFirstName(employee.getFirstName());
-            employeeDTO.setLastName(employee.getLastName());
-            employeeDTO.setDateBirth(employee.getDateBirth());
-            employeeDTO.setStatus(String.valueOf(employee.getStatus()));
-            employeeDTO.setJobId(employee.getJob().getId());
-            employeeDTO.setUsername(employee.getUserName());
-            employeeDTO.setGender(employee.getGender());
-            employeeDTO.setHashId(employee.getHashId());
-            employeeDTOS.add(employeeDTO);
-        }
-        return employeeDTOS;
+        return employees.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public Employee toEntity(EmployeeDTO employeeDTO) {
@@ -55,5 +42,19 @@ public class EmployeeMapper {
         employee.setGender(employeeDTO.getGender());
         employee.setHashId(employeeDTO.getHashId());
         return employee;
+    }
+
+    public EmployeeDTO toDTO(Employee employee) {
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setId(employee.getId());
+        employeeDTO.setFirstName(employee.getFirstName());
+        employeeDTO.setLastName(employee.getLastName());
+        employeeDTO.setDateBirth(employee.getDateBirth());
+        employeeDTO.setStatus(String.valueOf(employee.getStatus()));
+        employeeDTO.setJobId(employee.getJob().getId());
+        employeeDTO.setUsername(employee.getUserName());
+        employeeDTO.setGender(employee.getGender());
+        employeeDTO.setHashId(employee.getHashId());
+        return employeeDTO;
     }
 }

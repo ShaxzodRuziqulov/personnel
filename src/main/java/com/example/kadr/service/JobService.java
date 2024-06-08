@@ -13,9 +13,9 @@ import com.example.kadr.service.dto.JobDTO;
 import java.util.List;
 
 public interface JobService {
-    String create(JobDTO jobDTO);
+    JobDTO create(JobDTO jobDTO);
 
-    String update(JobDTO jobDTO);
+    JobDTO update(JobDTO jobDTO);
 
     List<JobDTO> all();
 

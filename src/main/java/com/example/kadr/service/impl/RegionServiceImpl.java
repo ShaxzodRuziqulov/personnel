@@ -12,6 +12,7 @@ import com.example.kadr.repository.RegionRepository;
 import com.example.kadr.service.RegionService;
 import com.example.kadr.service.dto.RegionDTO;
 import com.example.kadr.service.mapper.RegionMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,30 +28,22 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public String create(RegionDTO regionDTO) {
-        try {
-            regionRepository.save(regionMapper.toEntity(regionDTO));
-            return "Muvoffaqiyatli saqlandi";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Xatolik";
-        }
+    public RegionDTO create(RegionDTO regionDTO) {
+        Region region = regionMapper.toEntity(regionDTO);
+        region = regionRepository.save(region);
+        return regionMapper.toDTO(region);
     }
 
     @Override
-    public String update(RegionDTO regionDTO) {
-        try {
-            regionRepository.save(regionMapper.toEntity(regionDTO));
-            return "Muvaffaqiyatli uzgartirildi";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Xatolik";
-        }
+    public RegionDTO update(RegionDTO regionDTO) {
+        Region region = regionMapper.toEntity(regionDTO);
+        region = regionRepository.save(region);
+        return regionMapper.toDTO(region);
     }
 
     @Override
-    public List<RegionDTO> all() {
-        return regionMapper.toDTOS(regionRepository.findAll());
+    public List<RegionDTO> findAllByOrderBySortOrderDesc() {
+        return regionMapper.toDTOS(regionRepository.findAllByOrderBySortOrderDesc());
     }
 
     @Override
@@ -59,6 +52,7 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         regionRepository.updateStatus(id, CommonStatus.DELETED);
     }

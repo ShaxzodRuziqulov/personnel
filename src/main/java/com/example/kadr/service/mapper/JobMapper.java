@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class JobMapper {
@@ -29,19 +30,9 @@ public class JobMapper {
     }
 
     public List<JobDTO> toDTOS(List<Job> jobs) {
-        List<JobDTO> jobDTOList = new ArrayList<>();
-        for (Job job : jobs) {
-            JobDTO jobDTO = new JobDTO();
-            jobDTO.setId(job.getId());
-            jobDTO.setSortOrder(job.getSortOrder());
-            jobDTO.setName(job.getName());
-            jobDTO.setDepartmentId(job.getDepartment() != null ? job.getDepartment().getId() : null);
-            jobDTO.setPositionId(job.getPosition() != null ? job.getPosition().getId() : null);
-            jobDTO.setStatus(String.valueOf(job.getStatus()));
-            jobDTOList.add(jobDTO);
-        }
-        return jobDTOList;
+        return jobs.stream().map(this::toDTO).collect(Collectors.toList());
     }
+
     public Job toEntity(JobDTO jobDTO) {
         Job job = new Job();
         job.setId(jobDTO.getId());
@@ -52,4 +43,17 @@ public class JobMapper {
         job.setStatus(CommonStatus.valueOf(jobDTO.getStatus()));
         return job;
     }
+
+    public JobDTO toDTO(Job job) {
+        JobDTO jobDTO = new JobDTO();
+        jobDTO.setId(job.getId());
+        jobDTO.setName(job.getName());
+        jobDTO.setStatus(String.valueOf(job.getStatus()));
+        jobDTO.setSortOrder(job.getSortOrder());
+        jobDTO.setDepartmentId(job.getDepartment().getId());
+        jobDTO.setPositionId(job.getPosition().getId());
+        return jobDTO;
+    }
+
+
 }

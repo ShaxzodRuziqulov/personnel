@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class PositionMapper {
@@ -25,16 +26,19 @@ public class PositionMapper {
         position.setStatus(CommonStatus.valueOf(positionDTO.getStatus()));
         return position;
     }
+
     public List<PositionDTO> toDTOS(List<Position> positions) {
-        List<PositionDTO> positionDTOS = new ArrayList<>();
-        for (Position position : positions) {
-            PositionDTO positionDTO = new PositionDTO();
-            positionDTO.setId(position.getId());
-            positionDTO.setSortOrder(position.getSortOrder());
-            positionDTO.setName(position.getName());
-            positionDTO.setStatus(String.valueOf(position.getStatus()));
-            positionDTOS.add(positionDTO);
-        }
-        return positionDTOS;
+        return positions.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public PositionDTO toDTO(Position position) {
+        PositionDTO positionDTO = new PositionDTO();
+        positionDTO.setId(position.getId());
+        positionDTO.setName(position.getName());
+        positionDTO.setStatus(String.valueOf(position.getStatus()));
+        positionDTO.setSortOrder(position.getSortOrder());
+        return positionDTO;
     }
 }

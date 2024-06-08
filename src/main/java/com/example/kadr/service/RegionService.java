@@ -13,10 +13,13 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 
 public interface RegionService {
-    String create(RegionDTO regionDTO);
-    String update(RegionDTO regionDTO);
-    List<RegionDTO> all();
+    RegionDTO create(RegionDTO regionDTO);
+
+    RegionDTO update(RegionDTO regionDTO);
+
+    List<RegionDTO> findAllByOrderBySortOrderDesc();
+
     Region findById(Long id);
-    @Transactional
+
     void delete(Long id);
 }

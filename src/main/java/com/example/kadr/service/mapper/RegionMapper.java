@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class RegionMapper {
@@ -26,16 +27,17 @@ public class RegionMapper {
     }
 
     public List<RegionDTO> toDTOS(List<Region> regions) {
-        List<RegionDTO> regionDTOList = new ArrayList<>();
-        for (Region region :
-                regions) {
-            RegionDTO regionDTO = new RegionDTO();
-            regionDTO.setId(region.getId());
-            regionDTO.setSortOrder(region.getSortOrder());
-            regionDTO.setName(region.getName());
-            regionDTO.setStatus(String.valueOf(region.getStatus()));
-            regionDTOList.add(regionDTO);
-        }
-        return regionDTOList;
+        return regions.stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public RegionDTO toDTO(Region region) {
+        RegionDTO regionDTO = new RegionDTO();
+        regionDTO.setId(region.getId());
+        regionDTO.setName(region.getName());
+        regionDTO.setStatus(String.valueOf(region.getStatus()));
+        regionDTO.setSortOrder(region.getSortOrder());
+        return regionDTO;
     }
 }

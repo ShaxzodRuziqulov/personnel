@@ -15,9 +15,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface RegionRepository extends JpaRepository<Region,Long> {
-    @Transactional
+
+    List<Region> findAllByOrderBySortOrderDesc();
+
     @Modifying
     @Query("update Region a set a.status = :commonStatus where a.id = :id")
     void updateStatus(@Param("id") Long id, @Param("commonStatus") CommonStatus commonStatus);

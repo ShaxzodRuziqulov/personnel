@@ -33,7 +33,7 @@ public class StructureMapper {
             structureDTO.setParentId(parent.getId());
             structureDTO.setParentName(parent.getName());
         }
-        structureDTO.setStatus((structure.getStatus().toString()));
+        structureDTO.setStatus(String.valueOf((structure.getStatus())));
         return structureDTO;
     }
 

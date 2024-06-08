@@ -47,7 +47,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public DepartmentDTO update(DepartmentDTO departmentDTO) {
-        Department department = new Department();
+        Department department = departmentMapper.toEntity(departmentDTO);
         department = departmentRepository.save(department);
         return departmentMapper.toDTO(department);
     }

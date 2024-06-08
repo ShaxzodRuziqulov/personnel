@@ -25,6 +25,7 @@ public class Employee {
     @ManyToOne
     private Job job;
     private String userName;
+    @Enumerated(EnumType.STRING)
     private Gender gender;
     private String hashId;
 }

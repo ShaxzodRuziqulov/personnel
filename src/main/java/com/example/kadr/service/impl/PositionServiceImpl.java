@@ -28,25 +28,17 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public String create(PositionDTO positionDTO) {
-        try {
-            positionRepository.save(positionMapper.toEntity(positionDTO));
-            return "Muvaffaqiyatli saqlandi";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Xatolik";
-        }
+    public PositionDTO create(PositionDTO positionDTO) {
+        Position position = positionMapper.toEntity(positionDTO);
+        position = positionRepository.save(position);
+        return positionMapper.toDTO(position);
     }
 
     @Override
-    public String update(PositionDTO positionDTO) {
-        try {
-            positionRepository.save(positionMapper.toEntity(positionDTO));
-            return "Muvaffaqiyatli uzgartirildi";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Xatolik";
-        }
+    public PositionDTO update(PositionDTO positionDTO) {
+        Position position = positionMapper.toEntity(positionDTO);
+        position = positionRepository.save(position);
+        return positionMapper.toDTO(position);
     }
 
     @Override

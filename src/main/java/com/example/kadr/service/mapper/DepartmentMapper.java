@@ -51,7 +51,7 @@ public class DepartmentMapper {
         departmentDTO.setName(department.getName());
         departmentDTO.setSortOrder(department.getSortOrder());
         departmentDTO.setBranchId(department.getBranch().getId());
-        departmentDTO.setStatus(department.getStatus().toString());
+        departmentDTO.setStatus(String.valueOf(department.getStatus()));
         return departmentDTO;
     }
 }

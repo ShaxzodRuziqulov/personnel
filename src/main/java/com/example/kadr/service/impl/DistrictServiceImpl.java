@@ -12,6 +12,7 @@ import com.example.kadr.repository.DistrictRepository;
 import com.example.kadr.service.DistrictService;
 import com.example.kadr.service.dto.DistrictDTO;
 import com.example.kadr.service.mapper.DistrictMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,30 +28,22 @@ public class DistrictServiceImpl implements DistrictService {
     }
 
     @Override
-    public String create(DistrictDTO districtDTO) {
-        try {
-            districtRepository.save(districtMapper.toEntity(districtDTO));
-            return "Muvaffaqiyatli saqlandi";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Xatolik";
-        }
+    public DistrictDTO create(DistrictDTO districtDTO) {
+        District district = districtMapper.toEntity(districtDTO);
+        district = districtRepository.save(district);
+        return districtMapper.toDTO(district);
     }
 
     @Override
-    public String update(DistrictDTO districtDTO) {
-        try {
-            districtRepository.save(districtMapper.toEntity(districtDTO));
-            return "Muvaffaqiyatli uzgartirildi";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Xatolik";
-        }
+    public DistrictDTO update(DistrictDTO districtDTO) {
+        District district = districtMapper.toEntity(districtDTO);
+        district = districtRepository.save(district);
+        return districtMapper.toDTO(district);
     }
 
     @Override
-    public List<DistrictDTO> all() {
-        return districtMapper.toDTOS(districtRepository.findAll());
+    public List<DistrictDTO> findAllByOrderBySortOrderDesc() {
+        return districtMapper.toDTOS(districtRepository.findAllByOrderBySortOrderDesc());
     }
 
     @Override
@@ -59,6 +52,7 @@ public class DistrictServiceImpl implements DistrictService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         districtRepository.updateStatus(id, CommonStatus.DELETED);
     }

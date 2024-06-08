@@ -13,9 +13,9 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 
 public interface DistrictService {
-    String create(DistrictDTO districtDTO);
-    String update(DistrictDTO districtDTO);
-    List<DistrictDTO> all();
+    DistrictDTO create(DistrictDTO districtDTO);
+    DistrictDTO update(DistrictDTO districtDTO);
+    List<DistrictDTO> findAllByOrderBySortOrderDesc();
     District findById(Long id);
     @Transactional
     void delete(Long id);

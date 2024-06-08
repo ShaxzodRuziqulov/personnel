@@ -43,7 +43,7 @@ public class StructureResource {
 //    }
 
     @PutMapping("structures/update/{id}")
-    public ResponseEntity<?> update(@RequestBody StructureDTO structureDTO,@PathVariable Long id){
+    public ResponseEntity<?> update(@RequestBody StructureDTO structureDTO, @PathVariable Long id) {
         if (structureDTO.getId() == null || !structureDTO.getId().equals(id)) {
             return ResponseEntity.badRequest().body("Invalid ID");
         }
@@ -52,9 +52,9 @@ public class StructureResource {
             return ResponseEntity
                     .ok()
                     .body(result);
-        }catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

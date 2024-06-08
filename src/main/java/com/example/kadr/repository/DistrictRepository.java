@@ -19,7 +19,7 @@ import java.util.List;
 
 @Repository
 public interface DistrictRepository extends JpaRepository<District,Long> {
-    @Transactional
+    List<District> findAllByOrderBySortOrderDesc();
     @Modifying
     @Query("update District a set a.status = :commonStatus where a.id = :id")
     void updateStatus(@Param("id") Long id, @Param("commonStatus") CommonStatus commonStatus);
